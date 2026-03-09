@@ -467,17 +467,46 @@ document.addEventListener("DOMContentLoaded", () => {
   // BASE DE DATOS DINÁMICA — carga desde CSV o demo embebido
   // ============================================================
   const CSV_DEMO = `control,nombre,carrera,tipo_sangre,alergia,padecimiento,medicamentos,contacto_nombre,contacto_tel,notas
-c22230697,Ana García López,Ing. Sistemas Computacionales,O+,Penicilina,Asma,Salbutamol inhalador,María López,9211000001,Crisis asmática: sentar aflojar ropa usar inhalador
-22230698,Carlos Mendoza Ríos,Ing. Industrial,A-,,Diabetes tipo 1,Insulina personal,Roberto Mendoza,9211000002,Desorientado con sudor frío: posible hipoglucemia dar azúcar si está consciente
-c22230699,Sofía Torres Vega,Ing. Mecánica,B+,,,,,9211000003,Sin alertas médicas registradas
-22230700,Luis Ramírez Cruz,Ing. Eléctrica,AB+,Ibuprofeno,Epilepsia,Ácido valproico,Elena Cruz,9211000004,Convulsión: no sujetar no meter nada en boca cronometrar si pasa 5 min llamar 911
-c22230701,Daniela Flores Ruiz,Ing. Química,O-,Látex,,,,9211000005,Evitar contacto con guantes de látex y productos con latex
-22230702,Miguel Hernández Pérez,Ing. Sistemas Computacionales,A+,Sulfonamidas,Hipertensión,Losartán 50mg,Jorge Hernández,9211000006,No suministrar sulfonamidas; en crisis hipertensiva: sentar tranquilizar llamar 911
-c22230703,Valeria Castillo Mora,Ing. Industrial,B-,,Anemia,,Carmen Mora,9211000007,Puede presentar fatiga y mareos frecuentes; asegurar que coma y descanse
-22230704,Diego Ortega Soto,Ing. Mecánica,O+,Aspirina,Asma,Montelukast,Patricia Soto,9211000008,No dar aspirina ni antiinflamatorios similares; inhalador en mochila
-c22230705,Paola Jiménez Díaz,Ing. Eléctrica,A+,,,,,9211000009,Sin alertas médicas registradas
-22230706,Andrés López Vargas,Ing. Química,AB-,Penicilina Amoxicilina,Diabetes tipo 2,Metformina,Sandra Vargas,9211000010,Alergia severa a penicilinas; si hipoglucemia dar azúcar; no dar antibióticos sin consultar`;
-
+22230418,Milka Areli Garcia Perez,Ing. Ambiental,O+,Penicilina,Diabetes tipo 1,Complejo B,Ana Martínez,922 682 7363,Sin alertas médicas registradas
+24230766,Elena del Carmen Malaga Villaseca,Ing. en Inteligencia Artificial,A+,Polvo,Asma,Insulina,Ana Martínez,922 891 9772,Sin alertas médicas registradas
+22230906,Garcia Valdivieso Moises de Jesus,Lic. en Administración,B+,Penicilina,Anemia,Salbutamol,Rosa Díaz,922 897 9784,Sin alertas médicas registradas
+22230697,Sanchez Soto Lizandro,Ing. Electromecánica,O+,Ninguna,Hipertensión,Insulina,María García,922 328 7076,Sin alertas médicas registradas
+20230692,Cruz Martinez Jose Luis,Ing. en Sistemas Computacionales,O-,Polvo,Hipertensión,Losartán,Ana Martínez,922 247 2878,Sin alertas médicas registradas
+22230283,Perez Mendez Jair Gadiel,Ing. Ambiental,AB+,Ninguna,Anemia,Ninguno,José González,922 146 9118,Sin alertas médicas registradas
+22230691,Cruz Morales Jonathan Yair,Ing. en Sistemas Computacionales,O+,Mariscos,Hipertensión,Salbutamol,Rosa Díaz,922 666 6599,Sin alertas médicas registradas
+22230667,Ramirez Martinez Fares,Ing. en Sistemas Computacionales,O+,Ninguna,Asma,Ninguno,Juan Pérez,922 564 6873,Sin alertas médicas registradas
+25230163,Santiago Apolinar Danila,Ing. Electrónica,B-,Polvo,Hipertensión,Ninguno,Pedro López,922 462 2629,Sin alertas médicas registradas
+23230288,Pablo Grajales Ontiveros,Ing. Industrial,A+,Ninguna,Diabetes tipo 1,Paracetamol,Luis Rodríguez,922 610 8615,Sin alertas médicas registradas
+20700064,Jiménez Gómez Camila,Ing. en Desarrollo de Aplicaciones,AB-,Lácteos,Hipertensión,Omeprazol,Rosa Díaz,922 373 2218,Sin alertas médicas registradas
+26889668,Pérez Ortiz Carlos,Lic. en Administración,O+,Nuez,Migraña,Losartán,Pedro López,922 893 3169,Sin alertas médicas registradas
+22830086,Castillo González Victoria,Ing. Electrónica,B-,Polvo,Anemia,Ninguno,Laura Gómez,922 802 4968,Sin alertas médicas registradas
+25643263,García Rivera José,Ing. Ambiental,A-,Mariscos,Anemia,Complejo B,María García,922 824 2535,Sin alertas médicas registradas
+21915248,Romero Rivera David,Ing. Electromecánica,B+,Ninguna,Asma,Ninguno,Luis Rodríguez,922 872 9107,Sin alertas médicas registradas
+24157052,Rivera Sánchez Raúl,Lic. en Administración,O+,Lácteos,Gastritis,Insulina,Juan Pérez,922 224 1626,Sin alertas médicas registradas
+25595100,Hernández López Carlos,Ing. Electrónica,AB-,Mariscos,Migraña,Losartán,María García,922 346 2283,Sin alertas médicas registradas
+22884204,Rodríguez López Victoria,Ing. Ambiental,O-,Ninguna,Gastritis,Complejo B,Ana Martínez,922 921 7371,Sin alertas médicas registradas
+25798185,Romero Ramírez Pedro,Ing. Química,O-,Ninguna,Asma,Losartán,Carmen Sánchez,922 981 9881,Sin alertas médicas registradas
+25061246,Díaz Mendoza Andrés,Ing. Industrial,AB+,Mariscos,Asma,Paracetamol,Guillermo Silva,922 726 4439,Sin alertas médicas registradas
+23875814,Díaz Cruz Camila,Lic. en Administración,O+,Mariscos,Asma,Omeprazol,Luis Rodríguez,922 281 1794,Sin alertas médicas registradas
+20085835,Morales Ortiz Miguel,Ing. en Inteligencia Artificial,A+,Polen,Gastritis,Paracetamol,Rosa Díaz,922 603 3597,Sin alertas médicas registradas
+21274799,Álvarez López Paula,Ing. en Gestión Empresarial,O-,Ninguna,Migraña,Complejo B,Juan Pérez,922 487 4063,Sin alertas médicas registradas
+26311656,Castillo Ortiz Arturo,Ing. en Inteligencia Artificial,A+,Mariscos,Diabetes tipo 1,Complejo B,Laura Gómez,922 763 8293,Sin alertas médicas registradas
+23611948,Álvarez Cruz Lucía,Ing. Industrial,A-,Polen,Migraña,Complejo B,Carmen Sánchez,922 457 1995,Sin alertas médicas registradas
+23377902,Castillo Castillo Marta,Ing. en Desarrollo de Aplicaciones,A+,Ácaros,Asma,Insulina,Carmen Sánchez,922 811 3020,Sin alertas médicas registradas
+23727386,Romero Ramírez José,Ing. Ambiental,O-,Lácteos,Gastritis,Ninguno,Roberto Fernández,922 714 5246,Sin alertas médicas registradas
+24943359,Sánchez Ortiz José,Ing. Química,AB-,Mariscos,Anemia,Ninguno,Guillermo Silva,922 289 5696,Sin alertas médicas registradas
+26857632,Martínez Gómez Roberto,Ing. Industrial,B+,Mariscos,Anemia,Losartán,Carmen Sánchez,922 668 1509,Sin alertas médicas registradas
+26524213,Reyes Martínez Javier,Ing. en Desarrollo de Aplicaciones,A-,Penicilina,Migraña,Salbutamol,Laura Gómez,922 458 1878,Sin alertas médicas registradas
+26741324,Reyes Cruz Laura,Ing. en Inteligencia Artificial,AB-,Lácteos,Migraña,Omeprazol,Luis Rodríguez,922 526 1873,Sin alertas médicas registradas
+21529562,Pérez Álvarez Alejandro,Ing. Química,O-,Ácaros,Gastritis,Salbutamol,Rosa Díaz,922 331 7768,Sin alertas médicas registradas
+26571724,Mendoza Gómez Diego,Ing. en Inteligencia Artificial,B+,Penicilina,Hipertensión,Paracetamol,Rosa Díaz,922 888 8925,Sin alertas médicas registradas
+23933933,Jiménez Morales Ana,Ing. en Inteligencia Artificial,O-,Lácteos,Diabetes tipo 1,Complejo B,Pedro López,922 437 6022,Sin alertas médicas registradas
+25048727,García Sánchez Miguel,Ing. Electromecánica,AB+,Lácteos,Gastritis,Ninguno,Rosa Díaz,922 704 7056,Sin alertas médicas registradas
+24822710,Jiménez Flores Valeria,Ing. Industrial,O-,Polen,Ninguno,Ninguno,Pedro López,922 665 2996,Sin alertas médicas registradas
+26493048,Cruz Cruz Sofía,Ing. en Sistemas Computacionales,A+,Penicilina,Anemia,Ninguno,Laura Gómez,922 644 6795,Sin alertas médicas registradas
+26796385,Díaz Pérez Miguel,Ing. Electromecánica,A+,Lácteos,Ninguno,Complejo B,Juan Pérez,922 991 9580,Sin alertas médicas registradas
+24381625,Romero Álvarez Victoria,Ing. Electromecánica,AB+,Polen,Diabetes tipo 1,Losartán,Guillermo Silva,922 540 6570,Sin alertas médicas registradas
+24214607,Romero Pérez Jorge,Ing. Ambiental,A+,Ácaros,Anemia,Complejo B,Juan Pérez,922 616 1173,Sin alertas médicas registradas`;
   const norm = (v) => String(v ?? "").trim();
 
   // Convierte una fila CSV a la estructura interna de la app
