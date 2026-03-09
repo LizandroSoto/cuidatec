@@ -3,7 +3,7 @@ control,nombre,carrera,tipo_sangre,alergia,padecimiento,medicamentos,contacto_no
 24230766,Elena del Carmen Malaga Villaseca,Ing. en Inteligencia Artificial,A+,Polvo,Asma,Insulina,Ana Martínez,922 891 9772,Sin alertas médicas registradas
 22230906,Garcia Valdivieso Moises de Jesus,Lic. en Administración,B+,Penicilina,Anemia,Salbutamol,Rosa Díaz,922 897 9784,Sin alertas médicas registradas
 22230697,Sanchez Soto Lizandro,Ing. Electromecánica,O+,Ninguna,Hipertensión,Insulina,María García,922 328 7076,Sin alertas médicas registradas
-20230692,Cruz Martinez Jose Luis,Ing. en Sistemas Computacionales,O-,Polvo,Hipertensión,Losartán,Ana Martínez,922 247 2878,Sin alertas médicas registradas
+22230692,Cano Martinez Jose Luis,Ing. en Sistemas Computacionales,O-,Polvo,Hipertensión,Losartán,Ana Martínez,922 247 2878,Sin alertas médicas registradas
 22230283,Perez Mendez Jair Gadiel,Ing. Ambiental,AB+,Ninguna,Anemia,Ninguno,José González,922 146 9118,Sin alertas médicas registradas
 22230691,Cruz Morales Jonathan Yair,Ing. en Sistemas Computacionales,O+,Mariscos,Hipertensión,Salbutamol,Rosa Díaz,922 666 6599,Sin alertas médicas registradas
 22230667,Ramirez Martinez Fares,Ing. en Sistemas Computacionales,O+,Ninguna,Asma,Ninguno,Juan Pérez,922 564 6873,Sin alertas médicas registradas
@@ -39,3 +39,4 @@ control,nombre,carrera,tipo_sangre,alergia,padecimiento,medicamentos,contacto_no
 26796385,Díaz Pérez Miguel,Ing. Electromecánica,A+,Lácteos,Ninguno,Complejo B,Juan Pérez,922 991 9580,Sin alertas médicas registradas
 24381625,Romero Álvarez Victoria,Ing. Electromecánica,AB+,Polen,Diabetes tipo 1,Losartán,Guillermo Silva,922 540 6570,Sin alertas médicas registradas
 24214607,Romero Pérez Jorge,Ing. Ambiental,A+,Ácaros,Anemia,Complejo B,Juan Pérez,922 616 1173,Sin alertas médicas registradas
+
