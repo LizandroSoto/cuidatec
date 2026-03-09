@@ -1,0 +1,575 @@
+{
+  "meta": {
+    "version": "1.0",
+    "institucion": "Tecnológico de Minatitlán",
+    "sistema": "CuidaTEC",
+    "descripcion": "Base de conocimiento médica para primeros auxilios en campus universitario",
+    "idioma": "Español sencillo",
+    "ultima_actualizacion": "2026"
+  },
+
+  "instrucciones_chatbot": "Eres el asistente médico de CuidaTEC del Tecnológico de Minatitlán. Tu nombre es MediBot. Solo respondes preguntas sobre salud, primeros auxilios, síntomas y emergencias médicas. Siempre usas español sencillo y claro. Cuando sea una emergencia grave, siempre dices que llamen al 911. Nunca das diagnósticos médicos definitivos, solo orientación de primeros auxilios. Si no sabes algo, dilo honestamente.",
+
+  "padecimientos": [
+
+    {
+      "id": "diabetes",
+      "nombre": "Diabetes",
+      "tipo": "enfermedad crónica",
+      "descripcion": "La diabetes es una enfermedad en la que el cuerpo no controla bien el azúcar en la sangre. Hay dos tipos principales: Tipo 1 (el cuerpo no produce insulina) y Tipo 2 (el cuerpo no usa bien la insulina).",
+      "sintomas_generales": [
+        "Mucha sed",
+        "Ganas frecuentes de orinar",
+        "Cansancio sin razón",
+        "Vista borrosa",
+        "Heridas que tardan en sanar"
+      ],
+      "emergencias": [
+        {
+          "nombre": "Hipoglucemia (azúcar muy baja)",
+          "sintomas": [
+            "Temblores o sudor frío",
+            "Confusión o desorientación",
+            "Palidez",
+            "Mareo o debilidad repentina",
+            "Puede perder el conocimiento"
+          ],
+          "que_hacer": [
+            "Si está consciente: dale azúcar inmediatamente (refresco normal, jugo, dulces, azúcar directa)",
+            "Espera 15 minutos y revisa si mejora",
+            "Si no mejora o pierde el conocimiento: llama al 911 de inmediato",
+            "No le des nada de comer o beber si está inconsciente"
+          ],
+          "nivel_urgencia": "ALTO"
+        },
+        {
+          "nombre": "Hiperglucemia (azúcar muy alta)",
+          "sintomas": [
+            "Mucha sed y orina frecuente",
+            "Aliento con olor a fruta",
+            "Náuseas o vómito",
+            "Confusión o somnolencia"
+          ],
+          "que_hacer": [
+            "Lleva al estudiante a un lugar fresco y cómodo",
+            "Si tiene su insulina personal, ayúdalo a tomarla",
+            "Dale agua si está consciente",
+            "Si no mejora en 30 minutos o pierde el conocimiento: llama al 911"
+          ],
+          "nivel_urgencia": "MEDIO"
+        }
+      ],
+      "nota_campus": "Si un estudiante con diabetes se siente mal, primero pregúntale si tiene glucómetro o dulces en su mochila. Muchos diabéticos cargan su propio kit de emergencia.",
+      "llamar_911": false,
+      "llamar_911_cuando": "Si pierde el conocimiento o no responde al azúcar en 15 minutos"
+    },
+
+    {
+      "id": "asma",
+      "nombre": "Asma",
+      "tipo": "enfermedad respiratoria crónica",
+      "descripcion": "El asma hace que las vías respiratorias se inflamen y se estrechen, dificultando la respiración. Las crisis pueden ser desencadenadas por polvo, humo, ejercicio intenso, estrés o cambios de temperatura.",
+      "sintomas_generales": [
+        "Silbido al respirar (pecho suena como flauta)",
+        "Falta de aire",
+        "Tos frecuente, sobre todo de noche",
+        "Opresión en el pecho"
+      ],
+      "emergencias": [
+        {
+          "nombre": "Crisis asmática",
+          "sintomas": [
+            "Dificultad severa para respirar",
+            "No puede hablar frases completas",
+            "Labios o uñas azulados",
+            "El inhalador no ayuda después de varios intentos",
+            "Se ve muy asustado o agotado"
+          ],
+          "que_hacer": [
+            "Sienta al estudiante derecho, que NO se recueste",
+            "Afloja cualquier ropa apretada (corbata, cinturón, cuello)",
+            "Si tiene inhalador: ayúdalo a usarlo (2 inhalaciones, espera 1 minuto, 2 más si es necesario)",
+            "Aléjalo de polvo, humo o lo que causó la crisis",
+            "Mantén el ambiente tranquilo, el pánico empeora el asma",
+            "Si no mejora en 5-10 minutos: llama al 911"
+          ],
+          "nivel_urgencia": "ALTO"
+        }
+      ],
+      "nota_campus": "El polvo de las aulas viejas, el humo de los laboratorios y el ejercicio en el sol pueden provocar crisis. Identifica si el estudiante tiene inhalador en su mochila.",
+      "llamar_911": false,
+      "llamar_911_cuando": "Labios azules, no puede hablar, o el inhalador no funciona después de 10 minutos"
+    },
+
+    {
+      "id": "epilepsia_convulsiones",
+      "nombre": "Epilepsia / Convulsiones",
+      "tipo": "trastorno neurológico",
+      "descripcion": "La epilepsia causa convulsiones por actividad eléctrica anormal en el cerebro. Una convulsión puede verse como movimientos incontrolados del cuerpo, pérdida de conocimiento o rigidez muscular.",
+      "sintomas_generales": [
+        "Movimientos bruscos e incontrolados de brazos y piernas",
+        "Pérdida de conocimiento repentina",
+        "Rigidez del cuerpo",
+        "Ojos en blanco o desviados",
+        "Puede orinarse o morderse la lengua"
+      ],
+      "emergencias": [
+        {
+          "nombre": "Convulsión activa",
+          "sintomas": [
+            "Sacudidas incontroladas del cuerpo",
+            "Caída al suelo",
+            "Pérdida de consciencia",
+            "Espuma en la boca"
+          ],
+          "que_hacer": [
+            "MANTÉN LA CALMA y mira el reloj para medir cuánto dura",
+            "NO lo sujetes ni intentes detener los movimientos",
+            "Aleja objetos peligrosos (sillas, mesas, mochilas) para que no se golpee",
+            "Pon algo suave bajo su cabeza (ropa doblada, mochila suave)",
+            "NO metas nada en su boca, ni los dedos (no se traga la lengua)",
+            "Cuando pare la convulsión: voltéalo de lado (posición de recuperación)",
+            "Quédate con él hasta que esté completamente consciente y orientado"
+          ],
+          "nivel_urgencia": "ALTO"
+        }
+      ],
+      "nota_campus": "Después de una convulsión el estudiante puede estar confundido y cansado (período postictal). Es normal, dura unos minutos. No lo muevas bruscamente.",
+      "llamar_911": false,
+      "llamar_911_cuando": "Si dura más de 5 minutos, si tiene dos convulsiones seguidas, si es su primera vez, si se golpeó la cabeza fuerte, o si no despierta después"
+    },
+
+    {
+      "id": "hipertension",
+      "nombre": "Hipertensión (presión alta)",
+      "tipo": "enfermedad cardiovascular",
+      "descripcion": "La hipertensión es cuando la presión de la sangre en las arterias es demasiado alta. Puede no tener síntomas obvios pero en crisis puede ser muy peligrosa.",
+      "sintomas_generales": [
+        "Dolor de cabeza fuerte (especialmente en la nuca)",
+        "Mareos",
+        "Visión borrosa o con puntos",
+        "Zumbido en los oídos",
+        "Sangrado de nariz sin golpe"
+      ],
+      "emergencias": [
+        {
+          "nombre": "Crisis hipertensiva",
+          "sintomas": [
+            "Dolor de cabeza muy intenso y repentino",
+            "Confusión o dificultad para hablar",
+            "Visión borrosa o pérdida de visión",
+            "Dolor en el pecho",
+            "Dificultad para respirar",
+            "Entumecimiento en cara, brazo o pierna"
+          ],
+          "que_hacer": [
+            "Sienta o recuesta al estudiante en posición cómoda",
+            "Llévalo a un lugar tranquilo y fresco",
+            "Afloja ropa apretada",
+            "Si tiene medicamento para la presión, ayúdalo a tomarlo",
+            "NO le des aspirina ni ningún otro medicamento sin saber su historial",
+            "Mantén la calma, el estrés sube más la presión",
+            "Llama al 911 inmediatamente si hay síntomas neurológicos"
+          ],
+          "nivel_urgencia": "ALTO"
+        }
+      ],
+      "nota_campus": "El estrés de exámenes, el calor de Minatitlán y el café en exceso pueden subir la presión. Si un estudiante dice que 'siente la cabeza a punto de explotar', tómalo en serio.",
+      "llamar_911": false,
+      "llamar_911_cuando": "Síntomas de derrame (confusión, no puede hablar, cara caída, brazo débil) o dolor de pecho"
+    },
+
+    {
+      "id": "alergias_graves",
+      "nombre": "Alergias graves (Anafilaxia)",
+      "tipo": "reacción alérgica severa",
+      "descripcion": "Una alergia grave o anafilaxia es una reacción del sistema inmune que puede ser mortal en minutos. Los desencadenantes más comunes son alimentos (nueces, mariscos), medicamentos (penicilina), picaduras de insectos y látex.",
+      "sintomas_generales": [
+        "Ronchas o urticaria en la piel",
+        "Picazón intensa",
+        "Hinchazón de labios, lengua o garganta",
+        "Dificultad para respirar",
+        "Mareo o pérdida de conocimiento"
+      ],
+      "emergencias": [
+        {
+          "nombre": "Anafilaxia (reacción alérgica severa)",
+          "sintomas": [
+            "Garganta que se cierra (no puede respirar bien)",
+            "Hinchazón rápida de cara y cuello",
+            "Presión arterial muy baja (palidez, desmayo)",
+            "Vómito y diarrea súbitos",
+            "Pérdida de conocimiento"
+          ],
+          "que_hacer": [
+            "LLAMA AL 911 INMEDIATAMENTE, esta es una emergencia mortal",
+            "Si el estudiante tiene EpiPen (autoinyector de adrenalina): aplícalo en el muslo exterior",
+            "Recuéstalo con las piernas elevadas (a menos que tenga dificultad para respirar, en ese caso siéntalo)",
+            "Si para de respirar: inicia RCP",
+            "NO le des antihistamínicos orales como único tratamiento en anafilaxia grave, no actúan suficientemente rápido"
+          ],
+          "nivel_urgencia": "CRÍTICO"
+        }
+      ],
+      "nota_campus": "Revisar en la credencial clínica si el estudiante tiene alergias registradas antes de cualquier emergencia alimentaria.",
+      "llamar_911": true,
+      "llamar_911_cuando": "SIEMPRE en anafilaxia, no esperes a ver si mejora solo"
+    },
+
+    {
+      "id": "golpe_de_calor",
+      "nombre": "Golpe de calor",
+      "tipo": "emergencia por temperatura",
+      "descripcion": "El golpe de calor ocurre cuando el cuerpo se sobrecalienta y ya no puede regular su temperatura. Es frecuente en Minatitlán por el clima caluroso y húmedo. Puede ser mortal si no se atiende rápido.",
+      "sintomas_generales": [
+        "Temperatura corporal muy alta (más de 40°C)",
+        "Piel caliente, roja y SECA (no suda aunque hace calor)",
+        "Confusión o comportamiento extraño",
+        "Dolor de cabeza fuerte",
+        "Náuseas o vómito"
+      ],
+      "emergencias": [
+        {
+          "nombre": "Golpe de calor severo",
+          "sintomas": [
+            "No suda aunque tiene mucho calor",
+            "Confusión, delirio o pérdida de conocimiento",
+            "Convulsiones",
+            "Piel muy caliente y roja"
+          ],
+          "que_hacer": [
+            "Muévelo INMEDIATAMENTE a un lugar fresco con aire acondicionado o sombra",
+            "Quítale ropa innecesaria",
+            "Enfríalo rápido: paños húmedos fríos en cuello, axilas e ingles",
+            "Si está consciente: dale agua fría en sorbos pequeños",
+            "Abanica mientras lo enfrías con paños",
+            "Llama al 911 mientras haces todo lo anterior",
+            "NO le des aspirina ni paracetamol (no funciona para golpe de calor)"
+          ],
+          "nivel_urgencia": "CRÍTICO"
+        },
+        {
+          "nombre": "Agotamiento por calor (menos grave)",
+          "sintomas": [
+            "Sudoración excesiva",
+            "Palidez",
+            "Debilidad y mareo",
+            "Náuseas",
+            "Temperatura normal o ligeramente elevada"
+          ],
+          "que_hacer": [
+            "Llévalo a lugar fresco",
+            "Dale agua o bebida deportiva (Gatorade)",
+            "Recuéstalo con piernas elevadas",
+            "Paños húmedos en frente y cuello",
+            "Si no mejora en 30 minutos: llama al 911"
+          ],
+          "nivel_urgencia": "MEDIO"
+        }
+      ],
+      "nota_campus": "El campus de Minatitlán es muy caluroso. Estudiantes haciendo deporte o trabajando en talleres al sol son los más en riesgo. Hidratación constante es clave.",
+      "llamar_911": true,
+      "llamar_911_cuando": "Siempre en golpe de calor severo, especialmente si hay confusión o pérdida de conocimiento"
+    },
+
+    {
+      "id": "fracturas",
+      "nombre": "Fracturas (huesos rotos)",
+      "tipo": "lesión traumática",
+      "descripcion": "Una fractura es la rotura parcial o total de un hueso. Pueden ocurrir por caídas, golpes o accidentes en el campus.",
+      "sintomas_generales": [
+        "Dolor intenso en el área",
+        "Hinchazón y moretón",
+        "Deformidad visible (el hueso se ve en posición rara)",
+        "Incapacidad de mover la zona afectada",
+        "Sonido de crujido al momento del accidente"
+      ],
+      "emergencias": [
+        {
+          "nombre": "Fractura cerrada (hueso no sale de la piel)",
+          "sintomas": [
+            "Dolor intenso",
+            "Hinchazón y moretón rápido",
+            "No puede mover la extremidad"
+          ],
+          "que_hacer": [
+            "NO intentes acomodar el hueso roto",
+            "Inmoviliza la zona: usa tablillas improvisadas (reglas, cartón) y pañuelos o ropa para fijar",
+            "Aplica hielo envuelto en tela (nunca directo en la piel) para reducir hinchazón",
+            "Eleva la extremidad si es un brazo o pierna",
+            "Lleva al estudiante a urgencias o llama al 911 si no puede moverse"
+          ],
+          "nivel_urgencia": "MEDIO"
+        },
+        {
+          "nombre": "Fractura abierta (hueso sale de la piel)",
+          "sintomas": [
+            "Hueso visible a través de la piel",
+            "Sangrado abundante",
+            "Herida abierta alrededor de la fractura"
+          ],
+          "que_hacer": [
+            "LLAMA AL 911 INMEDIATAMENTE",
+            "NO toques ni intentes meter el hueso",
+            "Cubre la herida con tela limpia sin presionar sobre el hueso",
+            "Controla el sangrado alrededor (presiona los bordes de la herida, no el hueso)",
+            "Inmoviliza sin mover al paciente más de lo necesario"
+          ],
+          "nivel_urgencia": "CRÍTICO"
+        }
+      ],
+      "nota_campus": "Caídas en escaleras, accidentes en laboratorios y actividades deportivas son las causas más comunes en el campus.",
+      "llamar_911": false,
+      "llamar_911_cuando": "Fractura abierta, fractura de columna o cuello (no muevas al estudiante), o si hay pérdida de conocimiento"
+    },
+
+    {
+      "id": "intoxicacion_envenenamiento",
+      "nombre": "Intoxicación / Envenenamiento",
+      "tipo": "emergencia química",
+      "descripcion": "Ocurre cuando el cuerpo absorbe una sustancia tóxica por ingestión, inhalación, contacto con la piel o inyección. En campus universitario puede ocurrir por productos de laboratorio, medicamentos en exceso o alimentos en mal estado.",
+      "sintomas_generales": [
+        "Náuseas y vómito",
+        "Dolor abdominal",
+        "Confusión o mareo",
+        "Dificultad para respirar",
+        "Convulsiones",
+        "Pérdida de conocimiento"
+      ],
+      "emergencias": [
+        {
+          "nombre": "Intoxicación por ingestión",
+          "sintomas": [
+            "Vómito con o sin sangre",
+            "Quemaduras en boca o labios (si fue químico)",
+            "Dolor de estómago intenso",
+            "Confusión"
+          ],
+          "que_hacer": [
+            "LLAMA AL 911 o al Centro de Toxicología: 800-290-0024 (IMSS, gratis 24hrs)",
+            "Identifica qué ingirió y cuánto (guarda el envase o medicamento)",
+            "NO induzcas el vómito a menos que te lo indiquen por teléfono",
+            "Si está inconsciente: ponlo de lado para que no se ahogue con vómito",
+            "Si ingirió ácido o base (productos de limpieza): dale agua o leche si está consciente"
+          ],
+          "nivel_urgencia": "CRÍTICO"
+        },
+        {
+          "nombre": "Intoxicación por inhalación (laboratorio)",
+          "sintomas": [
+            "Ardor en ojos, nariz y garganta",
+            "Dificultad para respirar",
+            "Dolor de cabeza intenso",
+            "Mareo o pérdida de conocimiento"
+          ],
+          "que_hacer": [
+            "Saca al estudiante del área contaminada INMEDIATAMENTE",
+            "Llévalo al aire libre",
+            "Afloja ropa apretada",
+            "Si no respira: inicia RCP",
+            "Llama al 911"
+          ],
+          "nivel_urgencia": "CRÍTICO"
+        }
+      ],
+      "nota_campus": "En laboratorios de química: siempre identificar el agente antes de actuar. No entres a un área con gases tóxicos sin protección.",
+      "llamar_911": true,
+      "llamar_911_cuando": "Siempre que haya pérdida de conocimiento, convulsiones, dificultad para respirar o si no sabes qué ingirió"
+    },
+
+    {
+      "id": "crisis_ansiedad_panico",
+      "nombre": "Crisis de ansiedad / Pánico",
+      "tipo": "emergencia psicológica",
+      "descripcion": "Una crisis de pánico es un episodio intenso de miedo o ansiedad que provoca síntomas físicos muy reales. No es 'inventado' ni 'drama' — el cuerpo realmente lo siente. Es común en época de exámenes o momentos de mucho estrés.",
+      "sintomas_generales": [
+        "Corazón acelerado",
+        "Dificultad para respirar (sensación de ahogarse)",
+        "Temblores",
+        "Sudoración",
+        "Mareo o sensación de desmayo",
+        "Sensación de que algo muy malo va a pasar",
+        "Hormigueo en manos o cara"
+      ],
+      "emergencias": [
+        {
+          "nombre": "Crisis de pánico activa",
+          "sintomas": [
+            "Respiración muy rápida y superficial (hiperventilación)",
+            "Llanto incontrolable",
+            "Sensación de que se va a morir o volverse loco",
+            "No puede calmarse solo"
+          ],
+          "que_hacer": [
+            "Llévalo a un lugar tranquilo y apartado del ruido",
+            "Habla con voz calmada y suave: 'Estás bien, estoy aquí contigo'",
+            "Ayúdalo a respirar: 'Inhala contando 4, aguanta 4, exhala 4' (respiración cuadrada)",
+            "NO le digas 'cálmate' o 'no es para tanto', eso empeora la crisis",
+            "No lo dejes solo hasta que se calme completamente",
+            "Después de la crisis: ofrécele agua y pregunta si quiere hablar con orientación"
+          ],
+          "nivel_urgencia": "MEDIO"
+        }
+      ],
+      "nota_campus": "Época de exámenes parciales y finales son los momentos de más crisis. El apoyo entre compañeros es fundamental. Si las crisis son frecuentes, recomendar atención psicológica.",
+      "llamar_911": false,
+      "llamar_911_cuando": "Si pierde el conocimiento, tiene dolor de pecho muy intenso, o si crees que puede hacerse daño a sí mismo"
+    },
+
+    {
+      "id": "diarrea",
+      "nombre": "Diarrea",
+      "tipo": "emergencia gastrointestinal",
+      "descripcion": "La diarrea es la evacuación frecuente de heces líquidas o blandas. Puede ser causada por infección, alimentos en mal estado, estrés o medicamentos. En el campus puede surgir por comida de la cafetería o agua contaminada.",
+      "sintomas_generales": [
+        "Evacuaciones líquidas 3 o más veces al día",
+        "Cólicos o dolor abdominal",
+        "Náuseas",
+        "Fiebre leve",
+        "Debilidad o cansancio"
+      ],
+      "emergencias": [
+        {
+          "nombre": "Diarrea con deshidratación",
+          "sintomas": [
+            "Boca y labios muy secos",
+            "Ojos hundidos",
+            "No ha orinado en más de 6 horas",
+            "Mareo al pararse",
+            "Confusión o debilidad extrema",
+            "Sangre en las heces"
+          ],
+          "que_hacer": [
+            "Dale suero oral (Pedialyte, Vida Suero Oral) en sorbos frecuentes",
+            "Si no hay suero: agua con una pizca de sal y una cucharada de azúcar",
+            "Que descanse y evite alimentos grasosos o lácteos",
+            "Alimentos permitidos: arroz, pan tostado, plátano, manzana",
+            "Si hay sangre en heces o fiebre alta: lleva a urgencias",
+            "Si hay deshidratación severa: llama al 911"
+          ],
+          "nivel_urgencia": "MEDIO"
+        }
+      ],
+      "nota_campus": "Si varios estudiantes tienen diarrea al mismo tiempo después de comer en la cafetería, reportar inmediatamente a Protección Civil — puede ser intoxicación colectiva.",
+      "llamar_911": false,
+      "llamar_911_cuando": "Deshidratación severa (no ha orinado en todo el día), sangre en heces, fiebre muy alta (+39°C), o si es un niño pequeño o adulto mayor"
+    },
+
+    {
+      "id": "vomito",
+      "nombre": "Vómito",
+      "tipo": "emergencia gastrointestinal",
+      "descripcion": "El vómito es la expulsión forzada del contenido del estómago. Puede ser síntoma de muchas condiciones: infección, intoxicación, golpe en la cabeza, migraña, embarazo o estrés extremo.",
+      "sintomas_generales": [
+        "Náuseas antes del vómito",
+        "Expulsión del contenido estomacal",
+        "Sudoración fría",
+        "Palidez",
+        "Debilidad"
+      ],
+      "emergencias": [
+        {
+          "nombre": "Vómito con señales de alarma",
+          "sintomas": [
+            "Sangre en el vómito (color rojo brillante o como café molido)",
+            "Vómito después de golpe en la cabeza",
+            "Vómito con rigidez en el cuello y fiebre alta",
+            "No puede retener ni agua por más de 24 horas",
+            "Signos de deshidratación severa"
+          ],
+          "que_hacer": [
+            "LLAMA AL 911 si hay sangre en el vómito o fue después de golpe en la cabeza",
+            "Pon al estudiante de lado para que no se ahogue con el vómito",
+            "Mantén la cabeza más baja que el cuerpo si está inconsciente",
+            "Una vez que pase: ofrece sorbos pequeños de agua fría o suero oral",
+            "Evita comida por al menos 2 horas después del último vómito",
+            "Después: dieta blanda (arroz, caldo, gelatina)"
+          ],
+          "nivel_urgencia": "ALTO"
+        },
+        {
+          "nombre": "Vómito simple (sin señales de alarma)",
+          "sintomas": [
+            "Vómito 1-3 veces sin sangre",
+            "El estudiante está consciente y orientado",
+            "Causado por mareo, estrés o comida"
+          ],
+          "que_hacer": [
+            "Llévalo a un lugar fresco y ventilado",
+            "Que respire profundo por la nariz y exhale por la boca",
+            "Después de 30 minutos sin vómito: sorbos pequeños de agua",
+            "Que descanse recostado de lado",
+            "Evita olores fuertes"
+          ],
+          "nivel_urgencia": "BAJO"
+        }
+      ],
+      "nota_campus": "El vómito después de un golpe en la cabeza es señal seria de conmoción cerebral — siempre llama al 911 en ese caso.",
+      "llamar_911": false,
+      "llamar_911_cuando": "Sangre en el vómito, vómito tras golpe en cabeza, o no puede retener líquidos por más de 24 horas"
+    },
+
+    {
+      "id": "anemia",
+      "nombre": "Anemia",
+      "tipo": "enfermedad de la sangre",
+      "descripcion": "La anemia ocurre cuando la sangre no tiene suficientes glóbulos rojos o hemoglobina para llevar oxígeno al cuerpo. Es más común en mujeres jóvenes y puede empeorar con mala alimentación.",
+      "sintomas_generales": [
+        "Cansancio y debilidad constante",
+        "Palidez en piel, encías y párpados",
+        "Mareos, especialmente al pararse rápido",
+        "Dolor de cabeza frecuente",
+        "Uñas quebradizas",
+        "Falta de aire con poco esfuerzo"
+      ],
+      "emergencias": [
+        {
+          "nombre": "Desmayo por anemia",
+          "sintomas": [
+            "Mareo intenso antes de caer",
+            "Palidez extrema",
+            "Sudor frío",
+            "Pérdida de conocimiento"
+          ],
+          "que_hacer": [
+            "Recuéstalo en el suelo boca arriba",
+            "Eleva sus piernas 30 cm (ayuda a que la sangre llegue al cerebro)",
+            "Afloja ropa apretada",
+            "Aplica paño húmedo frío en la frente",
+            "Cuando despierte: no lo levantes rápido, hazlo gradualmente",
+            "Dale agua o jugo si está consciente",
+            "Reportar al médico del campus para evaluación"
+          ],
+          "nivel_urgencia": "MEDIO"
+        }
+      ],
+      "nota_campus": "Estudiantes que saltan comidas o tienen dietas muy restrictivas tienen más riesgo. El calor de Minatitlán empeora los síntomas. Recomendar evaluación médica si se desmaya frecuentemente.",
+      "llamar_911": false,
+      "llamar_911_cuando": "Si no recupera el conocimiento en 1-2 minutos, o si tiene dolor de pecho al despertar"
+    }
+
+  ],
+
+  "protocolos_campus": {
+    "que_hacer_primero": [
+      "1. Mantén la calma",
+      "2. Evalúa si hay peligro en el área (fuego, gas, tráfico)",
+      "3. Llama a vigilancia del campus",
+      "4. Llama al 911 si es necesario",
+      "5. NO muevas al herido a menos que esté en peligro inmediato",
+      "6. Busca el botiquín más cercano"
+    ],
+    "numeros_emergencia": {
+      "emergencias_general": "911",
+      "centro_toxicologia_imss": "800-290-0024",
+      "cruz_roja": "065"
+    },
+    "reglas_de_oro": [
+      "Nunca dar medicamentos sin saber el historial del estudiante",
+      "No mover a alguien con posible lesión de columna",
+      "No dar agua a alguien inconsciente",
+      "No dejar solo a alguien en crisis",
+      "Siempre registrar la hora en que inició la emergencia"
+    ]
+  }
+}

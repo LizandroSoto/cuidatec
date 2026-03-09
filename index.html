@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1b4e88", 
+                        "secondary-green": "#2e7d32",
+                        "dark-blue": "#0d2e53",
+                        "danger": "#dc2626", /* Agregado para el botón SOS */
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#121920",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="./app.js" defer></script>
+    <title>CuidaTEC - Tec de Minatitlán</title>
+    <style>
+      .guia-slideshow { overflow: hidden; }
+      .slideshow-track { display: flex; transition: transform .45s cubic-bezier(.4,0,.2,1); will-change: transform; }
+      .slideshow-slide { flex: 0 0 100%; width: 100%; box-sizing: border-box; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+    <div class="relative flex min-h-screen flex-col items-center justify-center bg-background-light dark:bg-background-dark overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col max-w-md w-full mx-auto my-4 md:my-8 rounded-[2.5rem] shadow-2xl border border-slate-200/60 dark:border-slate-700/60 overflow-hidden bg-white dark:bg-background-dark">
+            
+            <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-primary/10 px-6 md:px-20 py-4 bg-white dark:bg-background-dark sticky top-0 z-50 flex-row">
+                <div class="flex items-center gap-4 text-primary w-1/4">
+                    <div class="size-8">
+                        <span class="material-symbols-outlined text-4xl">security</span>
+                    </div>
+                    <h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">CuidaTEC Mina</h2>
+                </div>
+                <nav class="hidden md:flex flex-1 justify-center items-center gap-8">
+                    <a id="nav-inicio" data-route="inicio" class="text-primary text-sm font-bold border-b-2 border-primary pb-1" href="#inicio">Inicio (SOS)</a>
+                    <a id="nav-credencial" data-route="credencial" class="text-slate-700 dark:text-slate-200 text-sm font-medium hover:text-primary transition-colors" href="#credencial">Credencial</a>
+                    <a id="nav-chat" data-route="chat" class="text-slate-700 dark:text-slate-200 text-sm font-medium hover:text-primary transition-colors" href="#chat">Chat orientación</a>
+                    <a id="nav-guias" data-route="guias" class="text-slate-700 dark:text-slate-200 text-sm font-medium hover:text-primary transition-colors" href="#guias">Guías de Auxilio</a>
+                    <a id="nav-directorio" data-route="directorio" class="text-slate-700 dark:text-slate-200 text-sm font-medium hover:text-primary transition-colors" href="#directorio">Directorio Tec</a>
+                    <a id="nav-mapa" data-route="mapa" class="text-slate-700 dark:text-slate-200 text-sm font-medium hover:text-primary transition-colors" href="#mapa">Mapa del Campus</a>
+                </nav>
+                <div class="flex w-1/4 justify-end items-center gap-4 relative">
+                    <button id="btn-cuenta" class="flex items-center gap-2 rounded-full px-3 py-1.5 bg-primary text-white text-xs md:text-sm font-bold hover:bg-primary/90 transition-all cursor-pointer">
+                        <span class="material-symbols-outlined text-base md:text-lg">account_circle</span>
+                        <span class="hidden md:inline">Cuenta</span>
+                    </button>
+                    <div id="menu-cuenta" class="hidden absolute right-0 top-full mt-2 w-44 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-xl py-2 text-sm z-50">
+                        <button data-route="login" class="w-full text-left px-4 py-2.5 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold text-slate-800 dark:text-slate-100">
+                            Iniciar sesión
+                        </button>
+                        <div class="h-px bg-slate-200 dark:bg-slate-700 my-1"></div>
+                        <button data-route="registro" class="w-full text-left px-4 py-2.5 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold text-slate-800 dark:text-slate-100">
+                            Registrarse
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <main class="flex flex-col flex-1 items-center pb-20 md:pb-0">
+                
+                <div id="pantalla-inicio" class="w-full flex flex-col items-center">
+                    
+                    <div class="w-full max-w-[1200px] px-6 py-12 md:py-24 text-center flex flex-col items-center">
+                        <h1 class="text-slate-900 dark:text-white text-4xl md:text-6xl font-extrabold leading-tight tracking-tight mb-6">
+                            Sistema de <span class="text-danger">Alerta Interna</span>
+                        </h1>
+                        <p class="text-slate-600 dark:text-slate-400 text-lg md:text-xl font-normal max-w-[600px] mb-12">
+                            Herramienta de supervivencia y primeros auxilios para la comunidad del Tecnológico de Minatitlán.
+                        </p>
+
+                        <button id="boton-sos" class="relative group cursor-pointer flex flex-col items-center justify-center bg-danger text-white rounded-full w-56 h-56 shadow-[0_0_40px_rgba(220,38,38,0.3)] hover:shadow-[0_0_60px_rgba(220,38,38,0.5)] hover:-translate-y-2 transition-all duration-300">
+                            <span class="material-symbols-outlined text-[80px] mb-2">emergency</span>
+                            <span class="text-2xl font-black tracking-widest">AUXILIO</span>
+                            <div class="absolute inset-0 rounded-full border-4 border-danger animate-ping opacity-20 group-hover:opacity-40"></div>
+                        </button>
+                        <p class="mt-8 text-sm text-slate-500 font-medium">Presiona solo en caso de emergencia real dentro del campus.</p>
+                    </div>
+
+                    
+                </div>
+
+                <div id="panel-credencial" class="hidden w-full max-w-[1000px] px-6 py-10 flex-col items-center">
+                    <div class="w-full flex items-start justify-between gap-4 mb-6">
+                        <div>
+                            <h2 class="text-2xl md:text-3xl font-black text-slate-900 dark:text-white">Módulo de credencial clínica</h2>
+                            <p class="text-slate-600 dark:text-slate-400 mt-1">Privacidad primero: mostramos solo alertas esenciales y registramos accesos localmente.</p>
+                        </div>
+                        <button id="volver-inicio" class="shrink-0 inline-flex items-center justify-center gap-2 rounded-xl border border-primary/20 bg-white dark:bg-slate-800 px-4 py-2 font-bold text-primary hover:bg-primary/5 transition">
+                            <span class="material-symbols-outlined text-base">arrow_back</span> Volver
+                        </button>
+                    </div>
+
+                    <div class="w-full grid grid-cols-1 lg:grid-cols-5 gap-6">
+                        <div class="lg:col-span-2 rounded-2xl border border-primary/10 bg-white dark:bg-slate-800 p-6 shadow-sm">
+                            <h3 class="font-extrabold text-slate-900 dark:text-white text-lg flex items-center gap-2 mb-4">
+                                <span class="material-symbols-outlined text-primary">id_card</span> Buscar estudiante
+                            </h3>
+
+                            <label class="block text-sm font-bold text-slate-700 dark:text-slate-200 mb-2" for="credencial-input">Código de barras o No. control</label>
+                            <div class="flex gap-2">
+                                <input id="credencial-input" class="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 py-3 text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none" placeholder="Ej. c22230697 ó 22230697"/>
+                                <button id="btn-camara" title="Escanear con cámara" class="rounded-xl bg-slate-900 dark:bg-slate-700 text-white px-4 py-3 font-black hover:bg-slate-700 transition flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-xl">qr_code_scanner</span>
+                                </button>
+                                <button id="buscar-credencial" class="rounded-xl bg-primary text-white px-4 py-3 font-black hover:bg-primary/90 transition">Buscar</button>
+                            </div>
+
+                            <div class="mt-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-700 p-4">
+                                <div class="flex items-start gap-3">
+                                    <span class="material-symbols-outlined text-danger">privacy_tip</span>
+                                    <div class="flex-1">
+                                        <p class="font-extrabold text-slate-900 dark:text-white">Uso responsable</p>
+                                        <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Solo consulta datos clínicos si es necesario por seguridad o emergencia dentro del campus.</p>
+                                        <label class="mt-3 flex items-center gap-2 text-sm font-bold text-slate-700 dark:text-slate-200">
+                                            <input id="confirmo-privacidad" type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary"/>
+                                            Confirmo que tengo un motivo válido para consultar.
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex gap-2">
+                                <button id="limpiar-credencial" class="flex-1 rounded-xl border border-primary/20 bg-white dark:bg-slate-800 px-4 py-3 font-bold text-primary hover:bg-primary/5 transition">Limpiar</button>
+                                <button id="ver-registro" class="flex-1 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-3 font-bold hover:bg-slate-50 dark:hover:bg-slate-700 transition">Registro</button>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-3 rounded-2xl border border-primary/10 bg-white dark:bg-slate-800 p-6 shadow-sm">
+                            <div class="flex items-center justify-between gap-4 mb-4">
+                                <h3 class="font-extrabold text-slate-900 dark:text-white text-lg flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-danger">health_and_safety</span> Alertas médicas (mínimo necesario)
+                                </h3>
+                                <span id="estado-credencial" class="text-xs font-black px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200">Sin búsqueda</span>
+                            </div>
+
+                            <div id="resultado-credencial" class="min-h-[260px]">
+                                <div class="rounded-2xl border border-dashed border-slate-300 dark:border-slate-600 p-6 text-center text-slate-600 dark:text-slate-300">
+                                    <span class="material-symbols-outlined text-5xl text-primary/70">qr_code_2</span>
+                                    <p class="mt-3 font-bold">Escanea una credencial o ingresa el número de control.</p>
+                                    <p class="text-sm mt-1 text-slate-500 dark:text-slate-400">Tip: muchos lectores de código actúan como teclado y terminan con Enter.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="modal-registro" class="hidden fixed inset-0 z-[100] items-center justify-center p-6">
+                        <div class="absolute inset-0 bg-black/60"></div>
+                        <div class="relative w-full max-w-[720px] rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-2xl">
+                            <div class="p-6 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                                <h3 class="font-black text-lg text-slate-900 dark:text-white flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-primary">history</span> Registro local de consultas
+                                </h3>
+                                <button id="cerrar-registro" class="rounded-xl px-3 py-2 font-black hover:bg-slate-100 dark:hover:bg-slate-800 transition">Cerrar</button>
+                            </div>
+                            <div class="p-6">
+                                <div id="lista-registro" class="space-y-3"></div>
+                                <div class="mt-6 flex justify-end gap-2">
+                                    <button id="borrar-registro" class="rounded-xl bg-danger text-white px-4 py-2 font-black hover:bg-red-700 transition">Borrar registro</button>
+                                </div>
+                                <p class="mt-4 text-xs text-slate-500 dark:text-slate-400">Este registro se guarda solo en este navegador (localStorage). En producción conviene auditar en servidor con control de acceso.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== PANEL CHAT ORIENTACIÓN ===== -->
+                <div id="panel-chat" class="hidden w-full max-w-[900px] px-6 py-10 flex-col items-center">
+                    <div class="w-full flex items-start justify-between gap-4 mb-6">
+                        <div>
+                            <h2 class="text-2xl md:text-3xl font-black text-slate-900 dark:text-white flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">smart_toy</span>
+                                Chat de orientación rápida
+                            </h2>
+                            <p class="text-slate-600 dark:text-slate-400 mt-1">
+                                No es un diagnóstico médico. Solo te ayuda a identificar si parece urgente y cómo pedir atención formal.
+                            </p>
+                        </div>
+                        <button data-route="inicio" class="shrink-0 inline-flex items-center justify-center gap-2 rounded-xl border border-primary/20 bg-white dark:bg-slate-800 px-4 py-2 font-bold text-primary hover:bg-primary/5 transition">
+                            <span class="material-symbols-outlined text-base">arrow_back</span> Volver
+                        </button>
+                    </div>
+
+                    <div class="w-full grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2 rounded-2xl border border-primary/10 bg-white dark:bg-slate-800 p-4 md:p-6 shadow-sm flex flex-col min-h-[360px]">
+                            <div id="chat-mensajes" class="flex-1 space-y-3 overflow-y-auto pr-1">
+                                <!-- Mensajes se renderizan desde app.js -->
+                            </div>
+                            <div class="mt-4 border-t border-slate-200 dark:border-slate-700 pt-3">
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <button class="chat-quick px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-100" data-quick="dolor de cabeza">
+                                        Dolor de cabeza
+                                    </button>
+                                    <button class="chat-quick px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-100" data-quick="dolor de pecho">
+                                        Dolor de pecho
+                                    </button>
+                                    <button class="chat-quick px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-100" data-quick="fiebre y tos">
+                                        Fiebre y tos
+                                    </button>
+                                    <button class="chat-quick px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-100" data-quick="dolor abdominal">
+                                        Dolor abdominal
+                                    </button>
+                                </div>
+                                <div class="flex gap-2">
+                                    <input id="chat-input" class="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 py-2.5 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none" placeholder="Escribe tus síntomas (ej. 'tengo dolor en el pecho y mareos')">
+                                    <button id="chat-enviar" class="rounded-xl bg-primary text-white px-4 py-2.5 text-sm font-black hover:bg-primary/90 transition flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-base">send</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-1 space-y-4">
+                            <div class="rounded-2xl border border-amber/20 bg-amber-50 dark:bg-amber-900/10 p-4">
+                                <div class="flex items-start gap-2">
+                                    <span class="material-symbols-outlined text-amber-600">warning</span>
+                                    <div>
+                                        <p class="font-black text-amber-900 dark:text-amber-200 text-sm">Importante</p>
+                                        <p class="text-xs text-amber-800 dark:text-amber-100 mt-1">
+                                            Esta herramienta <strong>no reemplaza</strong> a un médico. Si el chat detecta signos de urgencia, te recomendará usar el botón SOS o llamar al 911.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="rounded-2xl border border-primary/20 bg-white dark:bg-slate-800 p-4">
+                                <h3 class="font-black text-slate-900 dark:text-white text-sm mb-2 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-primary text-lg">event_available</span>
+                                    Cita rápida en IMSS
+                                </h3>
+                                <p class="text-xs text-slate-600 dark:text-slate-300 mb-3">
+                                    Si el caso no es de urgencia inmediata, puedes gestionar una cita médica:
+                                </p>
+                                <a id="btn-cita-imss" href="https://citamedicadigital.imss.gob.mx/" target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-primary text-white px-3 py-2 text-xs font-black hover:bg-primary/90 transition">
+                                    <span class="material-symbols-outlined text-base">open_in_new</span>
+                                    Ir a cita médica IMSS
+                                </a>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-2">
+                                    Revisa que tus datos del IMSS estén actualizados y sigue los pasos del portal oficial.
+                                </p>
+                            </div>
+
+                            <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4">
+                                <h4 class="font-bold text-slate-900 dark:text-white text-sm mb-1">Cuándo usar el botón SOS</h4>
+                                <ul class="text-[11px] text-slate-600 dark:text-slate-300 list-disc list-inside space-y-1">
+                                    <li>Dolor de pecho fuerte o que no cede.</li>
+                                    <li>Dificultad para respirar o hablar.</li>
+                                    <li>Pérdida súbita de fuerza en cara/brazo/pierna.</li>
+                                    <li>Convulsiones o desmayo prolongado.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="toast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[120] max-w-[92vw]">
+                    <div id="toast-inner" class="rounded-2xl bg-slate-900 text-white px-5 py-4 shadow-2xl border border-white/10 flex items-start gap-3">
+                        <span class="material-symbols-outlined text-primary">info</span>
+                        <div class="flex-1">
+                            <div id="toast-title" class="font-black">Aviso</div>
+                            <div id="toast-message" class="text-sm text-white/80 mt-0.5">Mensaje</div>
+                        </div>
+                        <button id="toast-close" class="rounded-xl px-3 py-2 font-black hover:bg-white/10 transition">Cerrar</button>
+                    </div>
+                </div>
+
+                <!-- ===== PANEL GUÍAS ===== -->
+                <div id="panel-guias" class="hidden w-full max-w-[900px] px-6 py-10 flex-col items-center">
+                    <div class="w-full flex items-start justify-between gap-4 mb-6">
+                        <div>
+                            <h2 class="text-2xl md:text-3xl font-black text-slate-900 dark:text-white">Guías de Auxilio</h2>
+                            <p class="text-slate-600 dark:text-slate-400 mt-1">Protocolos rápidos de primeros auxilios para la comunidad del Tec.</p>
+                        </div>
+                        <button data-route="inicio" class="shrink-0 inline-flex items-center justify-center gap-2 rounded-xl border border-primary/20 bg-white dark:bg-slate-800 px-4 py-2 font-bold text-primary hover:bg-primary/5 transition">
+                            <span class="material-symbols-outlined text-base">arrow_back</span> Volver
+                        </button>
+                    </div>
+                    <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div id="guia-desmayo" class="rounded-2xl border border-primary/10 bg-white dark:bg-slate-800 p-6 shadow-sm">
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="material-symbols-outlined text-danger text-4xl">hotel_class</span>
+                                <h3 class="text-xl font-black text-slate-900 dark:text-white">Desmayo / Síncope</h3>
+                            </div>
+                            <ol class="list-decimal list-inside text-sm text-slate-700 dark:text-slate-300 space-y-2">
+                                <li>Recuéstalo en el suelo boca arriba.</li>
+                                <li>Eleva sus piernas 30 cm (mejora circulación).</li>
+                                <li>Afloja ropa apretada (corbata, cinturón).</li>
+                                <li>Asegúrate de que respira. Si no, llama al 911.</li>
+                                <li>No le des agua ni comida hasta que esté consciente.</li>
+                            </ol>
+                            <button class="btn-timer mt-4 w-full rounded-xl bg-primary/10 border border-primary/30 text-primary py-2 font-black text-sm flex items-center justify-center gap-2 hover:bg-primary/20 transition" data-segundos="120" data-label="Vigilar recuperación" data-guia="desmayo">
+                                <span class="material-symbols-outlined text-base">timer</span> Iniciar temporizador · 2 min
+                            </button>
+                  <div class="guia-slideshow mt-4 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 relative" data-guia="desmayo">
+                    <div class="slideshow-track">
+                    <div class="slideshow-slide flex flex-col items-center justify-center gap-3 p-5" style="min-height:168px;">
+                      <div class="w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center shadow-sm">
+                        <span class="material-symbols-outlined text-primary text-4xl">king_bed</span>
+                      </div>
+                      <div class="text-center px-2">
+                        <div class="text-[10px] font-black text-primary uppercase tracking-widest mb-1">Paso 1 de 5</div>
+                        <div class="text-sm font-bold text-slate-800 dark:text-slate-100 leading-snug">Recuéstalo en el suelo boca arriba</div>
+                      </div>
+                    </div>
+                    <div class="slideshow-slide flex flex-col items-center justify-center gap-3 p-5" style="min-height:168px;">
+                      <div class="w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center shadow-sm">
+                        <span class="material-symbols-outlined text-secondary-green text-4xl">accessibility_new</span>
+                      </div>
+                      <div class="text-center px-2">
+                        <div class="text-[10px] font-black text-secondary-green uppercase tracking-widest mb-1">Paso 2 de 5</div>
+                        <div class="text-sm font-bold text-slate-800 dark:text-slate-100 leading-snug">Eleva sus piernas 30 cm para mejorar la circulación</div>
+                      </div>
+                    </div>
+                    <div class="slideshow-slide flex flex-col items-center justify-center gap-3 p-5" style="min-height:168px;">
+                      <div class="w-16 h-16 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center shadow-sm">
+                        <span class="material-symbols-outlined text-amber-600 text-4xl">dry_cleaning</span>
+                      </div>
+                      <div class="text-center px-2">
+                        <div class="text-[10px] font-black text-amber-700 dark:text-amber-400 uppercase tracking-widest mb-1">Paso 3 de 5</div>
+                        <div class="text-sm font-bold text-slate-800 dark:text-slate-100 leading-snug">Afloja ropa apretada (corbata, cinturón, cuello)</div>
+                      </div>
+                    </div>
+                    <div class="slideshow-slide flex flex-col items-center justify-center gap-3 p-5" style="min-height:168px;">
+                      <div class="w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center shadow-sm">
+                        <span class="material-symbols-outlined text-danger text-4xl">respiratory_rate</span>
+                      </div>
+                      <div class="text-center px-2">
+                        <div class="text-[10px] font-black text-danger uppercase tracking-widest mb-1">Paso 4 de 5</div>
+                        <div class="text-sm font-bold text-slate-800 dark:text-slate-100 leading-snug">Asegúrate de que respira. Si no, llama al 911</div>
+                      </div>
+                    </div>
+                    <div class="slideshow-slide flex flex-col items-center justify-center gap-3 p-5" style="min-height:168px;">
+                      <div class="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center shadow-sm">
+                        <span class="material-symbols-outlined text-slate-500 text-4xl">no_drinks</span>
+                      </div>
+                      <div class="text-center px-2">
+                        <div class="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-1">Paso 5 de 5</div>
+                        <div class="text-sm font-bold text-slate-800 dark:text-slate-100 leading-snug">No le des agua ni comida hasta que esté consciente</div>
+                      </div>
+                    </div>
+                    </div>
+                    <button class="slideshow-prev absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 dark:bg-slate-700/90 shadow-md flex items-center justify-center text-slate-600 dark:text-slate-200 hover:bg-white transition z-10 opacity-60 hover:opacity-100">
+                      <span class="material-symbols-outlined text-lg">chevron_left</span>
+                    </button>
+                    <button class="slideshow-next absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 dark:bg-slate-700/90 shadow-md flex items-center justify-center text-slate-600 dark:text-slate-200 hover:bg-white transition z-10 opacity-60 hover:opacity-100">
+                      <span class="material-symbols-outlined text-lg">chevron_right</span>
+                    </button>
+                    <div class="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5 pointer-events-none">
+                      <span class="slideshow-dot h-2 w-4 bg-primary rounded-full transition-all duration-300"></span>
+                    <span class="slideshow-dot h-2 w-2 bg-slate-300 dark:bg-slate-600 rounded-full transition-all duration-300"></span>
+                    <span class="slideshow-dot h-2 w-2 bg-slate-300 dark:bg-slate-600 rounded-full transition-all duration-300"></span>
+                    <span class="slideshow-dot h-2 w-2 bg-slate-300 dark:bg-slate-600 rounded-full transition-all duration-300"></span>
+                    <span class="slideshow-dot h-2 w-2 bg-slate-300 dark:bg-slate-600 rounded-full transition-all duration-300"></span>
+                    </div>
+                    <div class="slideshow-paused-badge hidden absolute top-2 left-1/2 -translate-x-1/2 bg-slate-900/70 text-white text-[10px] px-3 py-1 rounded-full font-black flex items-center gap-1 whitespace-nowrap z-20">
+                      <span class="material-symbols-outlined text-xs">pause</span>&nbsp;Pausado — toca para reanudar
+                    </div>
+                  </div>
+                        </div>
+                        <div id="guia-convulsion" class="rounded-2xl border border-primary/10 bg-white dark:bg-slate-800 p-6 shadow-sm">
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="material-symbols-outlined text-danger text-4xl">psychology</span>
+                                <h3 class="text-xl font-black text-slate-900 dark:text-white">Convulsión</h3>
+                            </div>
+                            <ol class="list-decimal list-inside text-sm text-slate-700 dark:text-slate-300 space-y-2">
+                                <li>NO lo sujetes ni metas nada en su boca.</li>
+                                <li>Despeja el área de objetos peligrosos.</li>
+                                <li>Coloca algo suave bajo su cabeza.</li>
+                                <li>Voltéalo de lado cuando pare la convulsión.</li>
+                                <li>Si dura más de 5 min, llama al 911 inmediatamente.</li>
+                            </ol>
+                            <button class="btn-timer mt-4 w-full rounded-xl bg-danger/10 border border-danger/30 text-danger py-2 font-black text-sm flex items-center justify-center gap-2 hover:bg-danger/20 transition" data-segundos="300" data-label="Duración convulsión" data-guia="convulsion">
+                                <span class="material-symbols-outlined text-base">timer</span> Cronometrar convulsión · límite 5 min
+                            </button>
+                  <div class="guia-slideshow mt-4 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 relative" data-guia="convulsion">
+                    <div class="slideshow-track">
+                    <div class="slideshow-slide flex flex-col items-center justify-center gap-3 p-5" style="min-height:168px;">
+                      <div class="w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center shadow-sm">
+                        <span class="material-symbols-outlined text-danger text-4xl">do_not_touch</span>
+                      </div>
+                      <div class="text-center px-2">
+                        <div class="text-[10px] font-black text-danger uppercase tracking-widest mb-1">Paso 1 de 5</div>
+                        <div class="text-sm font-bold text-slate-800 dark:text-slate-100 leading-snug">NO lo sujetes ni metas nada en su boca</div>
+                      </div>
+                    </div>
+                    <div class="slideshow-slide flex flex-col items-center justify-center gap-3 p-5" style="min-height:168px;">
+                      <div class="w-16 h-16 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center shadow-sm">
+                        <span class="material-symbols-outlined text-amber-600 text-4xl">clear_all</span>
+                      </div>
+                      <div class="text-center px-2">
+                        <div class="text-[10px] font-black text-amber-700 dark:text-amber-400 uppercase tracking-widest mb-1">Paso 2 de 5</div>
+                        <div class="text-sm font-bold text-slate-800 dark:text-slate-100 leading-snug">Despeja el área de objetos peligrosos</div>
+                      </div>
+                    </div>
+                    <div class="slideshow-slide flex flex-col items-center justify-center gap-3 p-5" style="min-height:168px;">
+                      <div class="w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center shadow-sm">
+                        <span class="material-symbols-outlined text-primary text-4xl">weekend</span>
+                      </div>
+                      <div class="text-center px-2">
+                        <div class="text-[10px] font-black text-primary uppercase tracking-widest mb-1">Paso 3 de 5</div>
+                        <div class="text-sm font-bold text-slate-800 dark:text-slate-100 leading-snug">Coloca algo suave bajo su cabeza</div>
+                      </div>
+                    </div>
+                    <div class="slideshow-slide flex flex-col items-center justify-center gap-3 p-5" style="min-height:168px;">
+                      <div class="w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center shadow-sm">
+                        <span class="material-symbols-outlined text-secondary-green text-4xl">rotate_right</span>
+                      </div>
+                      <div class="text-center px-2">
+                        <div class="text-[10px] font-black text-secondary-green uppercase tracking-widest mb-1">Paso 4 de 5</div>
+                        <div class="text-sm font-bold text-slate-800 dark:text-slate-100 leading-snug">Voltéalo de lado cuando pare la convulsión</div>
+                      </div>
+                    </div>
+                    <div class="slideshow-slide flex flex-col items-center justify-center gap-3 p-5" style="min-height:168px;">
+                      <div class="w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center shadow-sm">
+                        <span class="material-symbols-outlined text-danger text-4xl">alarm</span>
+                      </div>
+                      <div class="text-center px-2">
+                        <div class="text-[10px] font-black text-danger uppercase tracking-widest mb-1">Paso 5 de 5</div>
+                        <div class="text-sm font-bold text-slate-800 dark:text-slate-100 leading-snug">Si dura más de 5 min → llama al 911 de inmediato</div>
+                      </div>
+                    </div>
+                    </div>
+                    <button class="slideshow-prev absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 dark:bg-slate-700/90 shadow-md flex items-center justify-center text-slate-600 dark:text-slate-200 hover:bg-white transition z-10 opacity-60 hover:opacity-100">
+                      <span class="material-symbols-outlined text-lg">chevron_left</span>
+                    </button>
+                    <button class="slideshow-next absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 dark:bg-slate-700/90 shadow-md flex items-center justify-center text-slate-600 dark:text-slate-200 hover:bg-white transition z-10 opacity-60 hover:opacity-100">
+                      <span class="material-symbols-outlined text-lg">chevron_right</span>
+                    </button>
+                    <div class="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5 pointer-events-none">
+                      <span class="slideshow-dot h-2 w-4 bg-primary rounded-full transition-all duration-300"></span>
+                    <span class="slideshow-dot h-2 w-2 bg-slate-300 dark:bg-slate-600 rounded-full transition-all duration-300"></span>
+                    <span class="slideshow-dot h-2 w-2 bg-slate-300 dark:bg-slate-600 rounded-full transition-all duration-300"></span>
+                    <span class="slideshow-dot h-2 w-2 bg-slate-300 dark:bg-slate-600 rounded-full transition-all duration-300"></span>
+                    <span class="slideshow-dot h-2 w-2 bg-slate-300 dark:bg-slate-600 rounded-full transition-all duration-300"></span>
+                    </div>
+                    <div class="slideshow-paused-badge hidden absolute top-2 left-1/2 -translate-x-1/2 bg-slate-900/70 text-white text-[10px] px-3 py-1 rounded-full font-black flex items-center gap-1 whitespace-nowrap z-20">
+                      <span class="material-symbols-outlined text-xs">pause</span>&nbsp;Pausado — toca para reanudar
+                    </div>
+                  </div>
+                        </div>
+                        <div id="guia-herida" class="rounded-2xl border border-primary/10 bg-white dark:bg-slate-800 p-6 shadow-sm">
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="material-symbols-outlined text-danger text-4xl">bloodtype</span>
+                                <h3 class="text-xl font-black text-slate-900 dark:text-white">Herida / Hemorragia</h3>
+                            </div>
+                            <ol class="list-decimal list-inside text-sm text-slate-700 dark:text-slate-300 space-y-2">
+                                <li>Usa guantes si están disponibles.</li>
+                                <li>Presiona la herida con tela limpia sin soltar.</li>
+                                <li>No retires el paño aunque se empape, agrega más encima.</li>
+                                <li>Mantén presión constante al menos 10 minutos.</li>
+                                <li>Si el sangrado no cede, llama al 911.</li>
+                            </ol>
+                            <button class="btn-timer mt-4 w-full rounded-xl bg-danger/10 border border-danger/30 text-danger py-2 font-black text-sm flex items-center justify-center gap-2 hover:bg-danger/20 transition" data-segundos="600" data-label="Presión sobre herida" data-guia="herida">
+                                <span class="material-symbols-outlined text-base">timer</span> Iniciar temporizador · 10 min presión
+                            </button>
+                  <div class="guia-slideshow mt-4 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 relative" data-guia="herida">
+                    <div class="slideshow-track">
+                    <div class="slideshow-slide flex flex-col items-center justify-center gap-3 p-5" style="min-height:168px;">
+                      <div class="w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center shadow-sm">
+                        <span class="material-symbols-outlined text-primary text-4xl">back_hand</span>
+                      </div>
+                      <div class="text-center px-2">
+                        <div class="text-[10px] font-black text-primary uppercase tracking-widest mb-1">Paso 1 de 5</div>
+                        <div class="text-sm font-bold text-slate-800 dark:text-slate-100 leading-snug">Usa guantes si están disponibles</div>
+                      </div>
+                    </div>
+                    <div class="slideshow-slide flex flex-col items-center justify-center gap-3 p-5" style="min-height:168px;">
+                      <div class="w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center shadow-sm">
+                        <span class="material-symbols-outlined text-danger text-4xl">healing</span>
+                      </div>
+                      <div class="text-center px-2">
+                        <div class="text-[10px] font-black text-danger uppercase tracking-widest mb-1">Paso 2 de 5</div>
+                        <div class="text-sm font-bold text-slate-800 dark:text-slate-100 leading-snug">Presiona la herida con tela limpia sin soltar</div>
+                      </div>
+                    </div>
+                    <div class="slideshow-slide flex flex-col items-center justify-center gap-3 p-5" style="min-height:168px;">
+                      <div class="w-16 h-16 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center shadow-sm">
+                        <span class="material-symbols-outlined text-amber-600 text-4xl">block</span>
+                      </div>
+                      <div class="text-center px-2">
+                        <div class="text-[10px] font-black text-amber-700 dark:text-amber-400 uppercase tracking-widest mb-1">Paso 3 de 5</div>
+                        <div class="text-sm font-bold text-slate-800 dark:text-slate-100 leading-snug">No retires el paño aunque se empape, agrega más encima</div>
+                      </div>
+                    </div>
+                    <div class="slideshow-slide flex flex-col items-center justify-center gap-3 p-5" style="min-height:168px;">
+                      <div class="w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center shadow-sm">
+                        <span class="material-symbols-outlined text-secondary-green text-4xl">timer</span>
+                      </div>
+                      <div class="text-center px-2">
+                        <div class="text-[10px] font-black text-secondary-green uppercase tracking-widest mb-1">Paso 4 de 5</div>
+                        <div class="text-sm font-bold text-slate-800 dark:text-slate-100 leading-snug">Mantén presión constante al menos 10 minutos</div>
+                      </div>
+                    </div>
+                    <div class="slideshow-slide flex flex-col items-center justify-center gap-3 p-5" style="min-height:168px;">
+                      <div class="w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center shadow-sm">
+                        <span class="material-symbols-outlined text-danger text-4xl">phone_in_talk</span>
+                      </div>
+                      <div class="text-center px-2">
+                        <div class="text-[10px] font-black text-danger uppercase tracking-widest mb-1">Paso 5 de 5</div>
+                        <div class="text-sm font-bold text-slate-800 dark:text-slate-100 leading-snug">Si el sangrado no cede → llama al 911</div>
+                      </div>
+                    </div>
+                    </div>
+                    <button class="slideshow-prev absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 dark:bg-slate-700/90 shadow-md flex items-center justify-center text-slate-600 dark:text-slate-200 hover:bg-white transition z-10 opacity-60 hover:opacity-100">
+                      <span class="material-symbols-outlined text-lg">chevron_left</span>
+                    </button>
+                    <button class="slideshow-next absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 dark:bg-slate-700/90 shadow-md flex items-center justify-center text-slate-600 dark:text-slate-200 hover:bg-white transition z-10 opacity-60 hover:opacity-100">
+                      <span class="material-symbols-outlined text-lg">chevron_right</span>
+                    </button>
+                    <div class="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5 pointer-events-none">
+                      <span class="slideshow-dot h-2 w-4 bg-primary rounded-full transition-all duration-300"></span>
+                    <span class="slideshow-dot h-2 w-2 bg-slate-300 dark:bg-slate-600 rounded-full transition-all duration-300"></span>
+                    <span class="slideshow-dot h-2 w-2 bg-slate-300 dark:bg-slate-600 rounded-full transition-all duration-300"></span>
+                    <span class="slideshow-dot h-2 w-2 bg-slate-300 dark:bg-slate-600 rounded-full transition-all duration-300"></span>
+                    <span class="slideshow-dot h-2 w-2 bg-slate-300 dark:bg-slate-600 rounded-full transition-all duration-300"></span>
+                    </div>
+                    <div class="slideshow-paused-badge hidden absolute top-2 left-1/2 -translate-x-1/2 bg-slate-900/70 text-white text-[10px] px-3 py-1 rounded-full font-black flex items-center gap-1 whitespace-nowrap z-20">
+                      <span class="material-symbols-outlined text-xs">pause</span>&nbsp;Pausado — toca para reanudar
+                    </div>
+                  </div>
+                        </div>
+                        <div id="guia-atragantamiento" class="rounded-2xl border border-primary/10 bg-white dark:bg-slate-800 p-6 shadow-sm">
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="material-symbols-outlined text-danger text-4xl">air</span>
+                                <h3 class="text-xl font-black text-slate-900 dark:text-white">Atragantamiento</h3>
+                            </div>
+                            <ol class="list-decimal list-inside text-sm text-slate-700 dark:text-slate-300 space-y-2">
+                                <li>Pregunta: "¿Puedes toser o hablar?"</li>
+                                <li>Si puede toser: anímalo a seguir tosiendo.</li>
+                                <li>Si NO puede: da 5 golpes fuertes en la espalda.</li>
+                                <li>Si persiste: Maniobra de Heimlich (5 compresiones abdominales).</li>
+                                <li>Si pierde la consciencia: llama al 911 e inicia RCP.</li>
+                            </ol>
+                            <button class="btn-timer mt-4 w-full rounded-xl bg-primary/10 border border-primary/30 text-primary py-2 font-black text-sm flex items-center justify-center gap-2 hover:bg-primary/20 transition" data-segundos="60" data-label="Intentos de desobstrucción" data-guia="atragantamiento">
+                                <span class="material-symbols-outlined text-base">timer</span> Cronometrar intentos · 1 min
+                            </button>
+                  <div class="guia-slideshow mt-4 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 relative" data-guia="atragantamiento">
+                    <div class="slideshow-track">
+                    <div class="slideshow-slide flex flex-col items-center justify-center gap-3 p-5" style="min-height:168px;">
+                      <div class="w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center shadow-sm">
+                        <span class="material-symbols-outlined text-primary text-4xl">record_voice_over</span>
+                      </div>
+                      <div class="text-center px-2">
+                        <div class="text-[10px] font-black text-primary uppercase tracking-widest mb-1">Paso 1 de 5</div>
+                        <div class="text-sm font-bold text-slate-800 dark:text-slate-100 leading-snug">¿Puede toser o hablar? Evalúa antes de actuar</div>
+                      </div>
+                    </div>
+                    <div class="slideshow-slide flex flex-col items-center justify-center gap-3 p-5" style="min-height:168px;">
+                      <div class="w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center shadow-sm">
+                        <span class="material-symbols-outlined text-secondary-green text-4xl">air</span>
+                      </div>
+                      <div class="text-center px-2">
+                        <div class="text-[10px] font-black text-secondary-green uppercase tracking-widest mb-1">Paso 2 de 5</div>
+                        <div class="text-sm font-bold text-slate-800 dark:text-slate-100 leading-snug">Si puede toser: anímalo a seguir tosiendo fuerte</div>
+                      </div>
+                    </div>
+                    <div class="slideshow-slide flex flex-col items-center justify-center gap-3 p-5" style="min-height:168px;">
+                      <div class="w-16 h-16 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center shadow-sm">
+                        <span class="material-symbols-outlined text-amber-600 text-4xl">sports_kabaddi</span>
+                      </div>
+                      <div class="text-center px-2">
+                        <div class="text-[10px] font-black text-amber-700 dark:text-amber-400 uppercase tracking-widest mb-1">Paso 3 de 5</div>
+                        <div class="text-sm font-bold text-slate-800 dark:text-slate-100 leading-snug">Si NO puede: da 5 golpes fuertes en la espalda</div>
+                      </div>
+                    </div>
+                    <div class="slideshow-slide flex flex-col items-center justify-center gap-3 p-5" style="min-height:168px;">
+                      <div class="w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center shadow-sm">
+                        <span class="material-symbols-outlined text-danger text-4xl">back_hand</span>
+                      </div>
+                      <div class="text-center px-2">
+                        <div class="text-[10px] font-black text-danger uppercase tracking-widest mb-1">Paso 4 de 5</div>
+                        <div class="text-sm font-bold text-slate-800 dark:text-slate-100 leading-snug">Si persiste: Maniobra de Heimlich (5 compresiones)</div>
+                      </div>
+                    </div>
+                    <div class="slideshow-slide flex flex-col items-center justify-center gap-3 p-5" style="min-height:168px;">
+                      <div class="w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center shadow-sm">
+                        <span class="material-symbols-outlined text-danger text-4xl">emergency</span>
+                      </div>
+                      <div class="text-center px-2">
+                        <div class="text-[10px] font-black text-danger uppercase tracking-widest mb-1">Paso 5 de 5</div>
+                        <div class="text-sm font-bold text-slate-800 dark:text-slate-100 leading-snug">Si pierde consciencia → llama al 911 e inicia RCP</div>
+                      </div>
+                    </div>
+                    </div>
+                    <button class="slideshow-prev absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 dark:bg-slate-700/90 shadow-md flex items-center justify-center text-slate-600 dark:text-slate-200 hover:bg-white transition z-10 opacity-60 hover:opacity-100">
+                      <span class="material-symbols-outlined text-lg">chevron_left</span>
+                    </button>
+                    <button class="slideshow-next absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 dark:bg-slate-700/90 shadow-md flex items-center justify-center text-slate-600 dark:text-slate-200 hover:bg-white transition z-10 opacity-60 hover:opacity-100">
+                      <span class="material-symbols-outlined text-lg">chevron_right</span>
+                    </button>
+                    <div class="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5 pointer-events-none">
+                      <span class="slideshow-dot h-2 w-4 bg-primary rounded-full transition-all duration-300"></span>
+                    <span class="slideshow-dot h-2 w-2 bg-slate-300 dark:bg-slate-600 rounded-full transition-all duration-300"></span>
+                    <span class="slideshow-dot h-2 w-2 bg-slate-300 dark:bg-slate-600 rounded-full transition-all duration-300"></span>
+                    <span class="slideshow-dot h-2 w-2 bg-slate-300 dark:bg-slate-600 rounded-full transition-all duration-300"></span>
+                    <span class="slideshow-dot h-2 w-2 bg-slate-300 dark:bg-slate-600 rounded-full transition-all duration-300"></span>
+                    </div>
+                    <div class="slideshow-paused-badge hidden absolute top-2 left-1/2 -translate-x-1/2 bg-slate-900/70 text-white text-[10px] px-3 py-1 rounded-full font-black flex items-center gap-1 whitespace-nowrap z-20">
+                      <span class="material-symbols-outlined text-xs">pause</span>&nbsp;Pausado — toca para reanudar
+                    </div>
+                  </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== WIDGET FLOTANTE TEMPORIZADOR ===== -->
+                <!-- Pill colapsado (siempre visible cuando hay timer activo) -->
+                <div id="timer-pill" class="hidden fixed bottom-20 md:bottom-6 right-4 z-[400] cursor-pointer select-none" style="filter: drop-shadow(0 4px 16px rgba(0,0,0,0.25));">
+                    <div id="timer-pill-inner" class="flex items-center gap-2 bg-primary text-white rounded-full px-4 py-2.5 font-black text-sm transition-all">
+                        <svg class="w-7 h-7 -rotate-90 shrink-0" viewBox="0 0 36 36">
+                            <circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="3"/>
+                            <circle id="timer-pill-ring" cx="18" cy="18" r="15" fill="none" stroke="white" stroke-width="3"
+                                stroke-dasharray="94.25" stroke-dashoffset="0" stroke-linecap="round"
+                                style="transition: stroke-dashoffset 1s linear, stroke 1s;"/>
+                        </svg>
+                        <span id="timer-pill-display" class="tabular-nums text-base">00:00</span>
+                        <span id="timer-pill-label" class="text-xs font-medium opacity-80 max-w-[90px] truncate"></span>
+                        <span id="timer-pill-icon" class="material-symbols-outlined text-base">timer</span>
+                    </div>
+                </div>
+
+                <!-- Panel expandido flotante -->
+                <div id="timer-panel" class="hidden fixed bottom-20 md:bottom-6 right-4 z-[401] w-72" style="filter: drop-shadow(0 8px 32px rgba(0,0,0,0.3));">
+                    <div class="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 overflow-hidden">
+                        <!-- Header -->
+                        <div class="flex items-center justify-between px-5 pt-4 pb-2">
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary text-xl">timer</span>
+                                <span id="timer-label" class="font-black text-slate-900 dark:text-white text-sm truncate max-w-[150px]">Temporizador</span>
+                            </div>
+                            <button id="timer-collapse" title="Minimizar" class="rounded-xl p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 transition text-slate-500">
+                                <span class="material-symbols-outlined text-base">expand_more</span>
+                            </button>
+                        </div>
+
+                        <!-- Anillo grande -->
+                        <div class="flex flex-col items-center px-5 pb-4">
+                            <div class="relative w-36 h-36 flex items-center justify-center my-2">
+                                <svg class="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 120 120">
+                                    <circle cx="60" cy="60" r="52" fill="none" stroke="#e2e8f0" stroke-width="7"/>
+                                    <circle id="timer-ring" cx="60" cy="60" r="52" fill="none" stroke="#16a34a" stroke-width="7"
+                                        stroke-dasharray="326.7" stroke-dashoffset="0" stroke-linecap="round"
+                                        style="transition: stroke-dashoffset 1s linear, stroke 1s;"/>
+                                </svg>
+                                <div class="flex flex-col items-center z-10">
+                                    <span id="timer-display" class="text-4xl font-black text-slate-900 dark:text-white tabular-nums leading-none">00:00</span>
+                                    <span id="timer-status-text" class="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-wider">Listo</span>
+                                </div>
+                            </div>
+
+                            <!-- Alerta al terminar -->
+                            <div id="timer-alerta" class="hidden w-full rounded-2xl bg-danger text-white p-3 text-center font-black text-xs mb-3 animate-pulse">
+                                ⚠️ ¡TIEMPO CUMPLIDO!<br>Evalúa la situación ahora.
+                            </div>
+
+                            <!-- Controles -->
+                            <div class="flex gap-2 w-full">
+                                <button id="timer-toggle" class="flex-1 rounded-2xl bg-primary text-white py-2.5 font-black text-sm hover:bg-primary/90 transition flex items-center justify-center gap-1.5">
+                                    <span class="material-symbols-outlined text-base">play_arrow</span> Iniciar
+                                </button>
+                                <button id="timer-reset" title="Reiniciar" class="rounded-2xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-200 px-3.5 py-2.5 font-black hover:bg-slate-200 dark:hover:bg-slate-600 transition">
+                                    <span class="material-symbols-outlined text-base">restart_alt</span>
+                                </button>
+                                <button id="cerrar-timer" title="Cerrar" class="rounded-2xl bg-red-50 dark:bg-red-900/20 text-danger px-3.5 py-2.5 font-black hover:bg-red-100 dark:hover:bg-red-900/40 transition">
+                                    <span class="material-symbols-outlined text-base">close</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alerta FULLSCREEN al terminar (encima de todo) -->
+                <div id="timer-alerta-full" class="hidden fixed inset-0 z-[500] flex items-center justify-center p-6">
+                    <div class="absolute inset-0 bg-danger/80 animate-pulse"></div>
+                    <div class="relative bg-white dark:bg-slate-900 rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl border-4 border-danger">
+                        <span class="material-symbols-outlined text-danger text-7xl">alarm</span>
+                        <h2 class="text-2xl font-black text-slate-900 dark:text-white mt-3">¡TIEMPO CUMPLIDO!</h2>
+                        <p id="timer-alerta-nombre" class="text-slate-600 dark:text-slate-300 mt-2 font-bold"></p>
+                        <p class="text-sm text-slate-500 mt-1">Evalúa la situación y actúa ahora.</p>
+                        <div class="mt-6 flex flex-col gap-3 w-full">
+                            <a href="tel:911" class="w-full rounded-2xl bg-danger text-white py-3 font-black text-lg hover:bg-red-700 transition flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-2xl">phone_in_talk</span> Llamar al 911
+                            </a>
+                            <button id="timer-alerta-cerrar" class="w-full rounded-2xl border-2 border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 py-3 font-black text-base hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== PANEL DIRECTORIO ===== -->
+                <div id="panel-directorio" class="hidden w-full max-w-[900px] px-6 py-10 flex-col items-center">
+                    <div class="w-full flex items-start justify-between gap-4 mb-6">
+                        <div>
+                            <h2 class="text-2xl md:text-3xl font-black text-slate-900 dark:text-white">Directorio Tec</h2>
+                            <p class="text-slate-600 dark:text-slate-400 mt-1">Contactos de emergencia del Tecnológico de Minatitlán.</p>
+                        </div>
+                        <button data-route="inicio" class="shrink-0 inline-flex items-center justify-center gap-2 rounded-xl border border-primary/20 bg-white dark:bg-slate-800 px-4 py-2 font-bold text-primary hover:bg-primary/5 transition">
+                            <span class="material-symbols-outlined text-base">arrow_back</span> Volver
+                        </button>
+                    </div>
+                    <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <a href="tel:9221234567" class="group flex items-center gap-5 rounded-2xl border border-primary/10 bg-white dark:bg-slate-800 p-6 shadow-sm hover:border-primary/40 hover:-translate-y-1 transition-all">
+                            <div class="w-14 h-14 rounded-full bg-danger/10 flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-danger text-3xl">local_police</span>
+                            </div>
+                            <div>
+                                <div class="font-black text-slate-900 dark:text-white">Caseta de Vigilancia</div>
+                                <div class="text-primary font-bold text-lg">922 123 4567</div>
+                                <div class="text-xs text-slate-500 mt-1">Disponible 24/7 dentro del campus</div>
+                            </div>
+                        </a>
+                        <a href="tel:9221234568" class="group flex items-center gap-5 rounded-2xl border border-primary/10 bg-white dark:bg-slate-800 p-6 shadow-sm hover:border-primary/40 hover:-translate-y-1 transition-all">
+                            <div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-primary text-3xl">shield</span>
+                            </div>
+                            <div>
+                                <div class="font-black text-slate-900 dark:text-white">Protección Civil Tec</div>
+                                <div class="text-primary font-bold text-lg">922 123 4568</div>
+                                <div class="text-xs text-slate-500 mt-1">Lunes a Viernes 8am–8pm</div>
+                            </div>
+                        </a>
+                        <a href="tel:9221234569" class="group flex items-center gap-5 rounded-2xl border border-primary/10 bg-white dark:bg-slate-800 p-6 shadow-sm hover:border-primary/40 hover:-translate-y-1 transition-all">
+                            <div class="w-14 h-14 rounded-full bg-secondary-green/10 flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-secondary-green text-3xl">emergency</span>
+                            </div>
+                            <div>
+                                <div class="font-black text-slate-900 dark:text-white">Cruz Roja Minatitlán</div>
+                                <div class="text-primary font-bold text-lg">922 123 4569</div>
+                                <div class="text-xs text-slate-500 mt-1">Servicio de ambulancias 24/7</div>
+                            </div>
+                        </a>
+                        <a href="tel:911" class="group flex items-center gap-5 rounded-2xl border border-danger/30 bg-red-50 dark:bg-red-900/10 p-6 shadow-sm hover:border-danger hover:-translate-y-1 transition-all">
+                            <div class="w-14 h-14 rounded-full bg-danger/20 flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-danger text-3xl">phone_in_talk</span>
+                            </div>
+                            <div>
+                                <div class="font-black text-slate-900 dark:text-white">Emergencias</div>
+                                <div class="text-danger font-black text-2xl">911</div>
+                                <div class="text-xs text-slate-500 mt-1">Policía · Bomberos · Ambulancia</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- ===== PANEL MAPA ===== -->
+                <div id="panel-mapa" class="hidden w-full max-w-[900px] px-6 py-10 flex-col items-center">
+                    <div class="w-full flex items-start justify-between gap-4 mb-6">
+                        <div>
+                            <h2 class="text-2xl md:text-3xl font-black text-slate-900 dark:text-white">Mapa del Campus</h2>
+                            <p class="text-slate-600 dark:text-slate-400 mt-1">Ubicación de recursos de emergencia en el Tec de Minatitlán.</p>
+                        </div>
+                        <button data-route="inicio" class="shrink-0 inline-flex items-center justify-center gap-2 rounded-xl border border-primary/20 bg-white dark:bg-slate-800 px-4 py-2 font-bold text-primary hover:bg-primary/5 transition">
+                            <span class="material-symbols-outlined text-base">arrow_back</span> Volver
+                        </button>
+                    </div>
+                    <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                        <div class="rounded-2xl border border-danger/20 bg-red-50 dark:bg-red-900/10 p-5 flex flex-col gap-2">
+                            <span class="material-symbols-outlined text-danger text-3xl">fire_extinguisher</span>
+                            <div class="font-black text-slate-900 dark:text-white">Extintores</div>
+                            <ul class="text-sm text-slate-700 dark:text-slate-300 space-y-1">
+                                <li>• Entrada principal (Hall)</li>
+                                <li>• Pasillo Edificio A (planta baja)</li>
+                                <li>• Laboratorio de Cómputo</li>
+                                <li>• Cafetería (cocina)</li>
+                            </ul>
+                        </div>
+                        <div class="rounded-2xl border border-secondary-green/20 bg-green-50 dark:bg-green-900/10 p-5 flex flex-col gap-2">
+                            <span class="material-symbols-outlined text-secondary-green text-3xl">medical_services</span>
+                            <div class="font-black text-slate-900 dark:text-white">Botiquines</div>
+                            <ul class="text-sm text-slate-700 dark:text-slate-300 space-y-1">
+                                <li>• Caseta de vigilancia</li>
+                                <li>• Dirección Académica</li>
+                                <li>• Laboratorio de Química</li>
+                                <li>• Gimnasio / Área deportiva</li>
+                            </ul>
+                        </div>
+                        <div class="rounded-2xl border border-primary/20 bg-blue-50 dark:bg-blue-900/10 p-5 flex flex-col gap-2">
+                            <span class="material-symbols-outlined text-primary text-3xl">groups</span>
+                            <div class="font-black text-slate-900 dark:text-white">Puntos de Reunión</div>
+                            <ul class="text-sm text-slate-700 dark:text-slate-300 space-y-1">
+                                <li>• Estacionamiento principal</li>
+                                <li>• Cancha de fútbol (norte)</li>
+                                <li>• Plaza cívica (frente)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="w-full rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-sm">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="material-symbols-outlined text-primary">info</span>
+                            <span class="font-black text-slate-900 dark:text-white">Croquis del Campus</span>
+                        </div>
+                        <div class="w-full aspect-video bg-slate-100 dark:bg-slate-900 rounded-xl flex flex-col items-center justify-center gap-3 border-2 border-dashed border-slate-300 dark:border-slate-600">
+                            <span class="material-symbols-outlined text-5xl text-slate-400">map</span>
+                            <p class="text-slate-500 font-bold">Aquí va el croquis oficial del Tec</p>
+                            <p class="text-xs text-slate-400">Pega la imagen del plano del campus en este espacio</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== PANEL EMERGENCIA ===== -->
+                <div id="panel-emergencia" class="hidden w-full max-w-[900px] px-6 py-12 flex-col items-center">
+                    <div class="w-full flex justify-end mb-4">
+                        <button data-route="inicio" class="inline-flex items-center justify-center gap-2 rounded-xl border border-primary/20 bg-white dark:bg-slate-800 px-4 py-2 font-bold text-primary hover:bg-primary/5 transition">
+                            <span class="material-symbols-outlined text-base">arrow_back</span> Volver al inicio
+                        </button>
+                    </div>
+                    <div class="bg-red-50 border-l-8 border-danger p-6 rounded-xl w-full text-left mb-8 shadow-sm">
+                        <h2 class="text-danger font-black text-2xl flex items-center gap-2 mb-2">
+                            <span class="material-symbols-outlined text-3xl">campaign</span> ¡ALERTA ACTIVADA!
+                        </h2>
+                        <p class="text-red-900 font-medium">Vigilancia ha sido notificada para abrir accesos. <strong class="uppercase">Debes llamar a una ambulancia ahora.</strong></p>
+                    </div>
+
+                    <!-- ACCIONES PRIMARIAS DE EMERGENCIA -->
+                    <div class="w-full grid grid-cols-1 gap-4 mb-10">
+                        <!-- 1. LLAMAR AL 911 -->
+                        <a href="tel:911" class="w-full bg-danger text-white py-5 rounded-2xl font-black text-2xl flex justify-center items-center gap-3 hover:bg-red-700 shadow-xl animate-pulse">
+                            <span class="material-symbols-outlined text-4xl">phone_in_talk</span> LLAMAR AL 911
+                        </a>
+
+                        <!-- 2. LLAMAR A VIGILANCIA -->
+                        <a href="tel:XXXXXXXXXX" id="btn-llamar-vigilancia" class="w-full bg-dark-blue text-white py-4 rounded-2xl font-black text-xl flex justify-center items-center gap-3 hover:bg-blue-900 shadow-lg transition">
+                            <span class="material-symbols-outlined text-3xl">local_police</span>
+                            <div class="flex flex-col items-start leading-tight">
+                                <span>LLAMAR A VIGILANCIA</span>
+                                <span class="text-xs font-normal opacity-75">Caseta del Tec · 24/7</span>
+                            </div>
+                        </a>
+
+                        <!-- 3. COMPARTIR UBICACIÓN GPS -->
+                        <button id="btn-compartir-ubicacion" class="w-full bg-secondary-green text-white py-4 rounded-2xl font-black text-xl flex justify-center items-center gap-3 hover:bg-green-700 shadow-lg transition">
+                            <span class="material-symbols-outlined text-3xl">share_location</span>
+                            <div class="flex flex-col items-start leading-tight">
+                                <span>ENVIAR MI UBICACIÓN</span>
+                                <span class="text-xs font-normal opacity-75">Abre WhatsApp con tu posición GPS</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mb-10">
+                        <div class="flex flex-col gap-3 rounded-2xl border border-primary/10 bg-white dark:bg-slate-800 p-6 shadow-sm">
+                            <span class="material-symbols-outlined text-danger text-4xl">do_not_touch</span>
+                            <h3 class="text-slate-900 dark:text-white font-bold">NO LO MUEVAS</h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">Si cayó o se golpeó, moverlo puede causar lesiones graves en la columna.</p>
+                        </div>
+                        <div class="flex flex-col gap-3 rounded-2xl border border-primary/10 bg-white dark:bg-slate-800 p-6 shadow-sm">
+                            <span class="material-symbols-outlined text-danger text-4xl">no_drinks</span>
+                            <h3 class="text-slate-900 dark:text-white font-bold">NADA DE AGUA</h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">Si pierde el conocimiento o convulsiona, podría asfixiarse con líquidos.</p>
+                        </div>
+                        <div class="flex flex-col gap-3 rounded-2xl border border-primary/10 bg-white dark:bg-slate-800 p-6 shadow-sm">
+                            <span class="material-symbols-outlined text-primary text-4xl">groups</span>
+                            <h3 class="text-slate-900 dark:text-white font-bold">PIDE ESPACIO</h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">Aleja a los curiosos inmediatamente para que tu compañero tenga oxígeno.</p>
+                        </div>
+                    </div>
+
+                    <div class="w-full text-left mb-8">
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-4">Manual de Primeros Auxilios</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <button data-manual="desmayo" class="bg-primary/10 text-primary border border-primary/20 p-4 rounded-xl font-bold flex flex-col items-center gap-2 hover:bg-primary/20 transition">
+                                <span class="material-symbols-outlined text-3xl">hotel_class</span> Se desmayó
+                            </button>
+                            <button data-manual="convulsion" class="bg-primary/10 text-primary border border-primary/20 p-4 rounded-xl font-bold flex flex-col items-center gap-2 hover:bg-primary/20 transition">
+                                <span class="material-symbols-outlined text-3xl">psychology</span> Convulsión
+                            </button>
+                            <button data-manual="herida" class="bg-primary/10 text-primary border border-primary/20 p-4 rounded-xl font-bold flex flex-col items-center gap-2 hover:bg-primary/20 transition">
+                                <span class="material-symbols-outlined text-3xl">bloodtype</span> Herida grave
+                            </button>
+                            <button data-manual="atragantamiento" class="bg-primary/10 text-primary border border-primary/20 p-4 rounded-xl font-bold flex flex-col items-center gap-2 hover:bg-primary/20 transition">
+                                <span class="material-symbols-outlined text-3xl">air</span> Se ahoga
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== PANEL NOSOTROS ===== -->
+                <div id="panel-nosotros" class="hidden w-full max-w-[900px] px-6 py-10 flex-col items-center">
+                    <div class="w-full flex items-start justify-between gap-4 mb-6">
+                        <div>
+                            <h2 class="text-2xl md:text-3xl font-black text-slate-900 dark:text-white flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">info</span>
+                                Sobre CuidaTEC
+                            </h2>
+                            <p class="text-slate-600 dark:text-slate-400 mt-1">
+                                Proyecto estudiantil del Tecnológico de Minatitlán para apoyar en temas de seguridad y primeros auxilios dentro del campus.
+                            </p>
+                        </div>
+                        <button data-route="inicio" class="shrink-0 inline-flex items-center justify-center gap-2 rounded-xl border border-primary/20 bg-white dark:bg-slate-800 px-4 py-2 font-bold text-primary hover:bg-primary/5 transition">
+                            <span class="material-symbols-outlined text-base">arrow_back</span> Volver
+                        </button>
+                    </div>
+
+                    <div class="w-full rounded-2xl bg-dark-blue text-white p-6 md:p-8 space-y-8">
+                        <div class="flex flex-col gap-4">
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-3xl">security</span>
+                                <h3 class="text-xl font-bold">CuidaTEC</h3>
+                            </div>
+                            <p class="text-slate-200 text-sm">
+                                Proyecto Estudiantil - Tecnológico de Minatitlán.<br>
+                                © 2026 CuidaTEC.
+                            </p>
+                        </div>
+
+                        <div class="flex flex-col gap-4">
+                            <h4 class="font-bold text-lg">Explorar</h4>
+                            <ul class="flex flex-col gap-2 text-slate-200 text-sm">
+                                <li><button data-route="inicio" class="text-left hover:text-white transition-colors">Inicio</button></li>
+                                <li><button data-route="guias" class="text-left hover:text-white transition-colors">Guías de Auxilio</button></li>
+                                <li><button data-route="directorio" class="text-left hover:text-white transition-colors">Directorio Tec</button></li>
+                            </ul>
+                        </div>
+
+                        <div class="flex flex-col gap-4">
+                            <h4 class="font-bold text-lg">Síguenos</h4>
+                            <div class="flex gap-4">
+                                <a class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all" href="#">
+                                    <span class="material-symbols-outlined">share</span>
+                                </a>
+                                <a class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all" href="#">
+                                    <span class="material-symbols-outlined">alternate_email</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== PANEL LOGIN ===== -->
+                <div id="panel-login" class="hidden w-full max-w-[900px] px-6 py-10 flex-col items-center">
+                    <div class="w-full flex items-start justify-between gap-4 mb-6">
+                        <div>
+                            <h2 class="text-2xl md:text-3xl font-black text-slate-900 dark:text-white">
+                                Iniciar sesión
+                            </h2>
+                            <p class="text-slate-600 dark:text-slate-400 mt-1">
+                                Accede con tu número de control para entrar a CuidaTEC.
+                            </p>
+                        </div>
+                        <button data-route="inicio" class="shrink-0 inline-flex items-center justify-center gap-2 rounded-xl border border-primary/20 bg-white dark:bg-slate-800 px-4 py-2 font-bold text-primary hover:bg-primary/5 transition">
+                            <span class="material-symbols-outlined text-base">arrow_back</span> Volver
+                        </button>
+                    </div>
+
+                    <div class="w-full max-w-[480px] rounded-2xl border border-primary/20 bg-white dark:bg-slate-800 p-6 shadow-sm flex flex-col gap-4">
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-primary text-3xl">login</span>
+                            <h3 class="text-xl font-black text-slate-900 dark:text-white">Iniciar sesión</h3>
+                        </div>
+                        <form class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 dark:text-slate-200 mb-1" for="login-control">
+                                    Número de control *
+                                </label>
+                                <input id="login-control" type="text" required class="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none" placeholder="Ej. 205W0001">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 dark:text-slate-200 mb-1" for="login-password">
+                                    Contraseña *
+                                </label>
+                                <input id="login-password" type="password" required class="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none" placeholder="••••••••">
+                            </div>
+                            <button type="submit" class="w-full mt-2 rounded-xl bg-primary text-white px-4 py-2.5 text-sm font-black hover:bg-primary/90 transition">
+                                Entrar
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- ===== PANEL REGISTRO ===== -->
+                <div id="panel-registro" class="hidden w-full max-w-[900px] px-6 py-10 flex-col items-center">
+                    <div class="w-full flex items-start justify-between gap-4 mb-6">
+                        <div>
+                            <h2 class="text-2xl md:text-3xl font-black text-slate-900 dark:text-white">
+                                Registro
+                            </h2>
+                            <p class="text-slate-600 dark:text-slate-400 mt-1">
+                                Completa tus datos para crear tu cuenta CuidaTEC.
+                            </p>
+                        </div>
+                        <button data-route="inicio" class="shrink-0 inline-flex items-center justify-center gap-2 rounded-xl border border-primary/20 bg-white dark:bg-slate-800 px-4 py-2 font-bold text-primary hover:bg-primary/5 transition">
+                            <span class="material-symbols-outlined text-base">arrow_back</span> Volver
+                        </button>
+                    </div>
+
+                    <div class="w-full max-w-[640px] rounded-2xl border border-secondary-green/30 bg-secondary-green/5 dark:bg-green-900/20 p-6 shadow-sm flex flex-col gap-4">
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-secondary-green text-3xl">person_add</span>
+                            <h3 class="text-xl font-black text-slate-900 dark:text-white">Formulario de registro</h3>
+                        </div>
+                        <form class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-200 mb-1" for="reg-nombre1">
+                                        Primer nombre *
+                                    </label>
+                                    <input id="reg-nombre1" type="text" required class="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-secondary-green/40 focus:border-secondary-green outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-200 mb-1" for="reg-nombre2">
+                                        Segundo nombre (opcional)
+                                    </label>
+                                    <input id="reg-nombre2" type="text" class="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-secondary-green/40 focus:border-secondary-green outline-none">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-200 mb-1" for="reg-apellidoP">
+                                        Apellido paterno *
+                                    </label>
+                                    <input id="reg-apellidoP" type="text" required class="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-secondary-green/40 focus:border-secondary-green outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-200 mb-1" for="reg-apellidoM">
+                                        Apellido materno *
+                                    </label>
+                                    <input id="reg-apellidoM" type="text" required class="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-secondary-green/40 focus:border-secondary-green outline-none">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 dark:text-slate-200 mb-1" for="reg-control">
+                                    Número de control *
+                                </label>
+                                <input id="reg-control" type="text" required class="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-secondary-green/40 focus:border-secondary-green outline-none" placeholder="Ej. 205W0001">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 dark:text-slate-200 mb-1" for="reg-carrera">
+                                    Carrera que cursa *
+                                </label>
+                                <select id="reg-carrera" required class="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-secondary-green/40 focus:border-secondary-green outline-none">
+                                    <option value="">Selecciona tu carrera</option>
+                                </select>
+                            </div>
+                            <div>
+                                <span class="block text-xs font-bold text-slate-700 dark:text-slate-200 mb-1">
+                                    Fecha de nacimiento *
+                                </span>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <select id="reg-dia" required class="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-2 py-2 text-xs text-slate-900 dark:text-white focus:ring-2 focus:ring-secondary-green/40 focus:border-secondary-green outline-none">
+                                        <option value="">Día</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                        <option>6</option>
+                                        <option>7</option>
+                                        <option>8</option>
+                                        <option>9</option>
+                                        <option>10</option>
+                                        <option>11</option>
+                                        <option>12</option>
+                                        <option>13</option>
+                                        <option>14</option>
+                                        <option>15</option>
+                                        <option>16</option>
+                                        <option>17</option>
+                                        <option>18</option>
+                                        <option>19</option>
+                                        <option>20</option>
+                                        <option>21</option>
+                                        <option>22</option>
+                                        <option>23</option>
+                                        <option>24</option>
+                                        <option>25</option>
+                                        <option>26</option>
+                                        <option>27</option>
+                                        <option>28</option>
+                                        <option>29</option>
+                                        <option>30</option>
+                                        <option>31</option>
+                                    </select>
+                                    <select id="reg-mes" required class="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-2 py-2 text-xs text-slate-900 dark:text-white focus:ring-2 focus:ring-secondary-green/40 focus:border-secondary-green outline-none">
+                                        <option value="">Mes</option>
+                                        <option>Enero</option>
+                                        <option>Febrero</option>
+                                        <option>Marzo</option>
+                                        <option>Abril</option>
+                                        <option>Mayo</option>
+                                        <option>Junio</option>
+                                        <option>Julio</option>
+                                        <option>Agosto</option>
+                                        <option>Septiembre</option>
+                                        <option>Octubre</option>
+                                        <option>Noviembre</option>
+                                        <option>Diciembre</option>
+                                    </select>
+                                    <select id="reg-anio" required class="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-2 py-2 text-xs text-slate-900 dark:text-white focus:ring-2 focus:ring-secondary-green/40 focus:border-secondary-green outline-none">
+                                        <option value="">Año</option>
+                                        <option>2008</option>
+                                        <option>2007</option>
+                                        <option>2006</option>
+                                        <option>2005</option>
+                                        <option>2004</option>
+                                        <option>2003</option>
+                                        <option>2002</option>
+                                        <option>2001</option>
+                                        <option>2000</option>
+                                        <option>1999</option>
+                                        <option>1998</option>
+                                        <option>1997</option>
+                                        <option>1996</option>
+                                        <option>1995</option>
+                                        <option>1994</option>
+                                        <option>1993</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="w-full mt-2 rounded-xl bg-secondary-green text-white px-4 py-2.5 text-sm font-black hover:bg-green-700 transition">
+                                Crear cuenta
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </main>
+
+            <!-- Navegación inferior estilo app (móvil) -->
+            <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-background-dark/95 border-t border-slate-200 dark:border-slate-800 backdrop-blur">
+                <div class="max-w-[900px] mx-auto px-4">
+                    <div class="flex items-center justify-between gap-1 py-2 text-[10px]">
+                        <a id="nav-inicio-bottom" data-route="inicio" href="#inicio" class="flex flex-col items-center justify-center gap-0.5 text-primary font-bold">
+                            <span class="material-symbols-outlined text-xl">emergency</span>
+                            <span>Inicio</span>
+                        </a>
+                        <a id="nav-credencial-bottom" data-route="credencial" href="#credencial" class="flex flex-col items-center justify-center gap-0.5 text-slate-700 dark:text-slate-200 font-medium">
+                            <span class="material-symbols-outlined text-xl">qr_code_scanner</span>
+                            <span>Credencial</span>
+                        </a>
+                        <a id="nav-chat-bottom" data-route="chat" href="#chat" class="flex flex-col items-center justify-center gap-0.5 text-slate-700 dark:text-slate-200 font-medium">
+                            <span class="material-symbols-outlined text-xl">smart_toy</span>
+                            <span>Chat</span>
+                        </a>
+                        <a id="nav-guias-bottom" data-route="guias" href="#guias" class="flex flex-col items-center justify-center gap-0.5 text-slate-700 dark:text-slate-200 font-medium">
+                            <span class="material-symbols-outlined text-xl">menu_book</span>
+                            <span>Guías</span>
+                        </a>
+                        <a id="nav-directorio-bottom" data-route="directorio" href="#directorio" class="flex flex-col items-center justify-center gap-0.5 text-slate-700 dark:text-slate-200 font-medium">
+                            <span class="material-symbols-outlined text-xl">contact_phone</span>
+                            <span>Directorio</span>
+                        </a>
+                        <a id="nav-mapa-bottom" data-route="mapa" href="#mapa" class="flex flex-col items-center justify-center gap-0.5 text-slate-700 dark:text-slate-200 font-medium">
+                            <span class="material-symbols-outlined text-xl">map</span>
+                            <span>Mapa</span>
+                        </a>
+                        <a id="nav-nosotros-bottom" data-route="nosotros" href="#nosotros" class="flex flex-col items-center justify-center gap-0.5 text-slate-700 dark:text-slate-200 font-medium">
+                            <span class="material-symbols-outlined text-xl">info</span>
+                            <span>Nosotros</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- ===== MODAL ESCÁNER CÁMARA ===== -->
+            <div id="modal-scanner" class="hidden fixed inset-0 z-[200] items-center justify-center p-4">
+                <div class="absolute inset-0 bg-black/80"></div>
+                <div class="relative w-full max-w-[420px] rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-2xl overflow-hidden">
+                    <div class="p-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                        <h3 class="font-black text-slate-900 dark:text-white flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">qr_code_scanner</span>
+                            Apunta al código de barras o QR
+                        </h3>
+                        <button id="cerrar-scanner" class="rounded-xl px-3 py-2 font-black hover:bg-slate-100 dark:hover:bg-slate-800 transition text-slate-900 dark:text-white">✕</button>
+                    </div>
+                    <div class="p-4">
+                        <div id="scanner-region" class="w-full rounded-xl overflow-hidden bg-black" style="min-height:280px;"></div>
+                        <p id="scanner-status" class="mt-3 text-center text-sm text-slate-500 dark:text-slate-400 font-medium">Iniciando cámara...</p>
+                        <p class="mt-1 text-center text-xs text-slate-400">Mantén la credencial estable y bien iluminada</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
